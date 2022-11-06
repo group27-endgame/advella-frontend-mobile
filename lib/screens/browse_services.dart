@@ -1,8 +1,7 @@
-import 'package:findhelpie_flutter_app/cards/service_card.dart';
-import 'package:findhelpie_flutter_app/listviews/services_categories.dart';
-import 'package:findhelpie_flutter_app/listviews/services_trending.dart';
-import 'package:findhelpie_flutter_app/models/category.dart';
-import 'package:findhelpie_flutter_app/models/service.dart';
+import 'package:advella/listviews/services_categories.dart';
+import 'package:advella/listviews/services_trending.dart';
+import 'package:advella/models/category.dart';
+import 'package:advella/models/service.dart';
 import 'package:flutter/material.dart';
 
 class BrowseServices extends StatefulWidget {
