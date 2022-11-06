@@ -1,6 +1,6 @@
-import 'package:findhelpie_flutter_app/models/task.dart';
+import 'package:advella/cards/task_card.dart';
+import 'package:advella/models/task.dart';
 import 'package:flutter/material.dart';
-import 'package:findhelpie_flutter_app/cards/task_card.dart';
 
 class MyTasksScreen extends StatefulWidget {
   const MyTasksScreen({Key? key}) : super(key: key);
