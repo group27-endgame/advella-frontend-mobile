@@ -1,13 +1,12 @@
-import 'package:findhelpie_flutter_app/cards/service_card.dart';
-import 'package:findhelpie_flutter_app/cards/product_card.dart';
-import 'package:findhelpie_flutter_app/cards/task_card.dart';
-import 'package:findhelpie_flutter_app/listviews/services_trending.dart';
-import 'package:findhelpie_flutter_app/models/category.dart';
-import 'package:findhelpie_flutter_app/models/service.dart';
-import 'package:findhelpie_flutter_app/models/product.dart';
-import 'package:findhelpie_flutter_app/models/task.dart';
-import 'package:findhelpie_flutter_app/screens/browse_services.dart';
+import 'package:advella/cards/product_card.dart';
+import 'package:advella/cards/service_card.dart';
+import 'package:advella/models/category.dart';
+import 'package:advella/models/product.dart';
+import 'package:advella/models/service.dart';
+import 'package:advella/models/task.dart';
 import 'package:flutter/material.dart';
+
+import 'browse_services.dart';
 
 class BrowseScreen extends StatefulWidget {
   const BrowseScreen({Key? key}) : super(key: key);
