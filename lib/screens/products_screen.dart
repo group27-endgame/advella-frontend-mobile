@@ -1,5 +1,5 @@
-import 'package:findhelpie_flutter_app/cards/product_card.dart';
-import 'package:findhelpie_flutter_app/models/product.dart';
+import 'package:advella/cards/product_card.dart';
+import 'package:advella/models/product.dart';
 import 'package:flutter/material.dart';
 
 class ProductsScreen extends StatefulWidget {
