@@ -1,193 +1,139 @@
-import 'package:advella/services/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
-import '../../constants.dart';
-
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends StatelessWidget {
   const RegisterScreen({Key? key}) : super(key: key);
-
-
-  @override
-  _RegisterScreenState createState() => _RegisterScreenState();
-}
-
-class _RegisterScreenState extends State<RegisterScreen> {
-
-  final _authService = AuthService();
-
-  final _formKey = GlobalKey<FormState>();
-
-  bool _error = false;
-  String _username = "", _userEmail = "", _password = "", _password2 = "", _errorMessage = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+        icon: Icon(Icons.arrow_back_ios),
+        color: Colors.grey[400],
+        onPressed: () {
+          Navigator.pop(context);
+        }
         ),
       ),
-      body: Stack(
-        children: [
-          Container(
-            width: double.infinity,
-            height: double.infinity,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/images/bg.png"),
-                    fit: BoxFit.cover,
-                    colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken)
-                )
-            ),
-            child: Padding(
-              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.3),
-              child: Container(
-                width: double.infinity,
-                height: double.infinity,
-                decoration: BoxDecoration(
-                    color: colorGrey,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(50)
-                    )
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(defaultPadding, defaultPadding*2.2, defaultPadding, defaultPadding/2),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        TextFormField(
-                          validator: MultiValidator(
-                              [
-                                RequiredValidator(errorText: "Username is required"),
-                              ]
-                          ),
-                          obscureText: false,
-                          onChanged: (username) {
-                            setState(() {
-                              _username = username;
-                            });
-                          },
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: "Username"
-                          ),
-                        ),
-                        SizedBox(height: defaultPadding,),
-                        TextFormField(
-                          validator: MultiValidator(
-                              [
-                                RequiredValidator(errorText: "Email address is required"),
-                                EmailValidator(errorText: "Email is in wrong format")
-                              ]
-                          ),
-                          obscureText: false,
-                          onChanged: (userEmail) {
-                            setState(() {
-                              _userEmail = userEmail;
-                            });
-                          },
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: "Email Address"
-                          ),
-                        ),
-                        SizedBox(height: defaultPadding,),
-                        TextFormField(
-                          validator: MultiValidator(
-                              [
-                                RequiredValidator(errorText: "Password field is required"),
-                                MinLengthValidator(5, errorText: "Password must have at least 5 characters")
-                              ]
-                          ),
-                          obscureText: true,
-                          onChanged: (password) {
-                            setState(() {
-                              _password = password;
-                            });
-                          },
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: "Password"
-                          ),
-                        ),
-                        SizedBox(height: defaultPadding,),
-                        TextFormField(
-                          validator: (val) => MatchValidator(errorText: "Passwords do not match").validateMatch(_password, _password2),
-                          obscureText: true,
-                          onChanged: (password2) {
-                            setState(() {
-                              _password2 = password2;
-                            });
-                          },
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              labelText: "Repeat Password"
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            Text("Already have account?"),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text("Click here to login!"),
-                            )
-                          ],
-                        ),
-                        SizedBox(height: defaultPadding/2,),
-                        _error ? Text(_errorMessage, style: TextStyle(color: Colors.red),) : Container(),
-                        _error ? SizedBox(height: defaultPadding/2,) : Container(),
-                        Container(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: () async{
-                              if(_formKey.currentState!.validate()){
-                                bool result = await _authService.registerUser(_userEmail, _username, _password);
-                                if(result){
-                                  Navigator.pop(context);
-                                }
-                                else{
-                                  setState(() {
-                                    _errorMessage = "This account already exists";
-                                    _error = true;
-                                  });
-                                }
-                              }
-                            },
-                            child: Text("Register"),
-                            style: ElevatedButton.styleFrom(primary: Colors.red),
-                          ),
-                        )
-                      ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(40, 10, 40, 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Column(
+                children: [
+                  Image.asset('assets/images/facebook.png',width: double.infinity,),
+                  Image.asset('assets/images/google.png',width: double.infinity,),
+                ],
+              ),
+              SizedBox(height: 30,),
+              Column(
+                children: [
+                  TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                        hintText: "Email Address"
+                    ),
+                    validator: MultiValidator(
+                        [
+                          EmailValidator(errorText: "Use valid email!"),
+                          RequiredValidator(errorText: "Email is required!"),
+                        ]
                     ),
                   ),
-                ),
+                  TextFormField(
+                    decoration: InputDecoration(
+                        hintText: "Full Name"
+                    ),
+                    validator: RequiredValidator(errorText: "Full Name is required!"),
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                        hintText: "Phone Number",
+                      prefixIcon: Icon(Icons.flag)
+                    ),
+                    validator: MultiValidator(
+                        [
+                          LengthRangeValidator(min: 8, max: 8, errorText: "Phone must have 8 digits!"),
+                          RequiredValidator(errorText: "Phone number is required!"),
+                        ]
+                    ),
+                  ),
+                  TextFormField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      hintText: "Password",
+                    ),
+                    validator: MultiValidator(
+                        [
+                          MinLengthValidator(6, errorText: "Password must have at least 6 characters"),
+                          RequiredValidator(errorText: "Password is required!"),
+                        ]
+                    ),
+                  ),
+                  TextFormField(
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      hintText: "Confirm Password",
+                    ),
+                    validator: MultiValidator(
+                        [
+                          EmailValidator(errorText: "Use valid email!"),
+                          RequiredValidator(errorText: "Email is required!"),
+                        ]
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ),
-          Align(
-              alignment: Alignment.topCenter,
-              child: Padding(
-                padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height*0.14,
-                ),
-                child: Text("Register", style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold),),
+              SizedBox(height: 30,),
+              Row(
+                children: [
+                  Text("Government Verification ", style: TextStyle(color: Colors.black, fontSize: 16),),
+                  Text("(Optional)", style: TextStyle(color: Colors.grey),),
+                ],
+              ),
+              Text("We value your privacy. Identity will be used for Safety of"
+                "Platform and society, It will not be disclosed to 3rd parties.",
+                style: TextStyle(color: Colors.grey),),
+              SizedBox(height: 20,),
+              Row(
+                children: [
+                  Icon(
+                    Icons.add_photo_alternate_outlined,
+                    size: 30,
+                    color: Colors.blue,
+                  ),
+                  Icon(
+                    Icons.add_photo_alternate_outlined,
+                    size: 30,
+                    color: Colors.blue,
+                  ),
+                ],
+              ),
+              SizedBox(height: 30,),
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Already have an account?"),
+                      TextButton(onPressed: (){
+                        Navigator.pop(context);
+                      }, child: Text("Login")),
+                    ],
+                  ),
+                  ElevatedButton(onPressed: (){}, child: Text("Register")),
+                  SizedBox(height: 40,),
+                ],
               )
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
