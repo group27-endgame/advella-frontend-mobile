@@ -113,23 +113,45 @@ class _BrowseScreenState extends State<BrowseScreen> with TickerProviderStateMix
     Product('Iphone 6', '600 kr.', 'Vejen, 6600', 'assets/images/iphone6.jpg')
   ];
 
+
   @override
   Widget build(BuildContext context) {
 
-    TabController _tabController = TabController(length: 3, vsync: this);
+    TabController _tabController = TabController(length: 4, vsync: this);
 
     return Scaffold(
       body: SafeArea(
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                padding: const EdgeInsets.only(top: 10, left: 20),
-                child: Row(
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              floating: false,
+              pinned: false,
+              expandedHeight: 150,
+              backgroundColor: Colors.transparent,
+              flexibleSpace: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                      padding: const EdgeInsets.only(top: 5, left: 0),
+                      padding: const EdgeInsets.only(top: 5, left: 20),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(Icons.menu, size: 30,color: Colors.black54,),
+                          new Spacer(),
+                          Container(
+                            margin: const EdgeInsets.only(right: 20),
+                            width: 50,
+                            height: 50,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Image.asset('assets/images/profile_pic.png'),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 18,),
+                    Container(
+                      padding: const EdgeInsets.only(left: 20),
                       child: Text(
                         'Browse',
                         style: TextStyle(
@@ -138,56 +160,58 @@ class _BrowseScreenState extends State<BrowseScreen> with TickerProviderStateMix
                         ),
                       ),
                     ),
-                    new Spacer(),
                     Container(
-                      margin: const EdgeInsets.only(right: 20),
-                      width: 45,
-                      height: 45,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.asset('assets/images/profile_pic.png'),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: TabBar(
+                          labelPadding: const EdgeInsets.only(left: 20, right: 20),
+                          controller: _tabController,
+                          labelColor: Colors.black,
+                          unselectedLabelColor: Colors.grey,
+                          isScrollable: true,
+                          indicatorSize: TabBarIndicatorSize.label,
+                          indicator: CircleTabIndicator(color: Colors.blueAccent, radius: 4),
+                          tabs: [
+                            Tab(text: 'Home'),
+                            Tab(text: 'Services'),
+                            Tab(text: 'Products'),
+                            Tab(text: 'Events'),
+                          ],
+                        ),
                       ),
                     ),
-                  ],
-                ),
+                  ]
               ),
-              SizedBox(height: 10,),
 
-              Container(
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: TabBar(
-                    labelPadding: const EdgeInsets.only(left: 20, right: 20),
-                    controller: _tabController,
-                    labelColor: Colors.black,
-                    unselectedLabelColor: Colors.grey,
-                    isScrollable: true,
-                    indicatorSize: TabBarIndicatorSize.label,
-                    indicator: CircleTabIndicator(color: Colors.blueAccent, radius: 4),
-                    tabs: [
-                      Tab(text: 'Home'),
-                      Tab(text: 'Services'),
-                      Tab(text: 'Products'),
-                    ],
+            ),
+
+            SliverFillRemaining(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                      height: MediaQuery.of(context).size.height,
+                      width: double.maxFinite,
+                      child: TabBarView(
+                        controller: _tabController,
+                        children: [
+                          BrowseServices(trendingServices, categories, services),
+                          ServicesCard(services),
+                          ProductCard(products),
+                          Text('Bye'),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
+                  /////////////////////////////////// Expanded(child: PostCard(posts)),
+                ],
               ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
-                height: 520,
-                width: double.maxFinite,
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    BrowseServices(trendingServices, categories, services),
-                    ServicesCard(services),
-                    ProductCard(products),
-                  ],
-                ),
-              ),
-              /////////////////////////////////// Expanded(child: PostCard(posts)),
-            ],
-          ),
+            ),
+
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -230,90 +254,90 @@ class _CirclePainter extends BoxPainter
 
 }
 
-    // return SafeArea(
-    //   child: Scaffold(
-    //     backgroundColor: Colors.white,
-    //     body: Container(
-    //       // decoration: BoxDecoration(
-    //       //   image: DecorationImage(
-    //       //     image: AssetImage("assets/images/backWall.jpg"),
-    //       //     fit: BoxFit.cover,
-    //       //   ),
-    //       // ),
-    //       child: Column(
-    //         children: <Widget>[
-    //           Padding(
-    //             padding: EdgeInsets.fromLTRB(10, 5, 10, 0),
-    //             child: TextField(
-    //               textAlignVertical: TextAlignVertical.center,
-    //               decoration: InputDecoration(
-    //                 border: OutlineInputBorder(
-    //                   borderRadius: BorderRadius.circular(10.0),
-    //                 ),
-    //                 hintText: 'Search',
-    //                 prefixIcon: Icon(Icons.search),
-    //               ),
-    //             ),
-    //           ),
-    //           Row(
-    //             children: <Widget>[
-    //               Padding(
-    //                 padding: const EdgeInsets.fromLTRB(10, 3, 0, 0),
-    //                 child: DropdownButtonHideUnderline(
-    //                   child: DropdownButton(
-    //                     value: _value,
-    //                     style: TextStyle(
-    //                       color: Colors.grey,
-    //                     ),
-    //                     items: [
-    //                       DropdownMenuItem(
-    //                         child: Text("Latest"),
-    //                         value: 1,
-    //                       ),
-    //                       DropdownMenuItem(
-    //                         child: Text("Oldest"),
-    //                         value: 2,
-    //                       ),
-    //                     ],
-    //                     onChanged: (int? value) {
-    //                       setState(() {
-    //                         _value = value;
-    //                       });
-    //                     },
-    //                   ),
-    //                 ),
-    //               ),
-    //               new Spacer(),
-    //               IconButton(
-    //                 onPressed: () => Navigator.of(context).pushNamed('/filter'),
-    //                 icon: Icon(Icons.filter_alt_outlined),
-    //                 color: Colors.grey,
-    //               ),
-    //               IconButton(
-    //                 onPressed: () {
-    //                   Navigator.pushNamed(context, "/browseMap");
-    //                 },
-    //                 icon: Icon(Icons.location_on_outlined),
-    //                 color: Colors.grey,
-    //               ),
-    //             ],
-    //           ),
-    //           Expanded(
-    //             child: ListView(
-    //               children: tasks.map((task) => TaskCard(
-    //                 task: task,
-    //               )).toList(),
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   ),
-    // );
+// return SafeArea(
+//   child: Scaffold(
+//     backgroundColor: Colors.white,
+//     body: Container(
+//       // decoration: BoxDecoration(
+//       //   image: DecorationImage(
+//       //     image: AssetImage("assets/images/backWall.jpg"),
+//       //     fit: BoxFit.cover,
+//       //   ),
+//       // ),
+//       child: Column(
+//         children: <Widget>[
+//           Padding(
+//             padding: EdgeInsets.fromLTRB(10, 5, 10, 0),
+//             child: TextField(
+//               textAlignVertical: TextAlignVertical.center,
+//               decoration: InputDecoration(
+//                 border: OutlineInputBorder(
+//                   borderRadius: BorderRadius.circular(10.0),
+//                 ),
+//                 hintText: 'Search',
+//                 prefixIcon: Icon(Icons.search),
+//               ),
+//             ),
+//           ),
+//           Row(
+//             children: <Widget>[
+//               Padding(
+//                 padding: const EdgeInsets.fromLTRB(10, 3, 0, 0),
+//                 child: DropdownButtonHideUnderline(
+//                   child: DropdownButton(
+//                     value: _value,
+//                     style: TextStyle(
+//                       color: Colors.grey,
+//                     ),
+//                     items: [
+//                       DropdownMenuItem(
+//                         child: Text("Latest"),
+//                         value: 1,
+//                       ),
+//                       DropdownMenuItem(
+//                         child: Text("Oldest"),
+//                         value: 2,
+//                       ),
+//                     ],
+//                     onChanged: (int? value) {
+//                       setState(() {
+//                         _value = value;
+//                       });
+//                     },
+//                   ),
+//                 ),
+//               ),
+//               new Spacer(),
+//               IconButton(
+//                 onPressed: () => Navigator.of(context).pushNamed('/filter'),
+//                 icon: Icon(Icons.filter_alt_outlined),
+//                 color: Colors.grey,
+//               ),
+//               IconButton(
+//                 onPressed: () {
+//                   Navigator.pushNamed(context, "/browseMap");
+//                 },
+//                 icon: Icon(Icons.location_on_outlined),
+//                 color: Colors.grey,
+//               ),
+//             ],
+//           ),
+//           Expanded(
+//             child: ListView(
+//               children: tasks.map((task) => TaskCard(
+//                 task: task,
+//               )).toList(),
+//             ),
+//           ),
+//         ],
+//       ),
+//     ),
+//   ),
+// );
 
 
-    //////////////////////////////////////////////////
-    /*
+//////////////////////////////////////////////////
+/*
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -360,7 +384,7 @@ class _CirclePainter extends BoxPainter
       ),
     );
     */
-    ///////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////
 
 
 

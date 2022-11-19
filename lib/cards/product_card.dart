@@ -17,7 +17,7 @@ class _ProductCardState extends State<ProductCard> {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 0.80
+        childAspectRatio: 0.70
       ),
       itemCount: widget.products.length,
       itemBuilder: (context, index) {

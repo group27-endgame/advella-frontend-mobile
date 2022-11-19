@@ -123,7 +123,7 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
                     color: Colors.grey[900],
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: Text(
                       '200 DKK',
                       style: TextStyle(
@@ -132,12 +132,14 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
                       ),
                     ),
                   ),
+                  new Spacer(),
                   Container(
                     height: 30,
                     child: VerticalDivider(
-                      color: Colors.grey,
+                      color: Colors.transparent,
                     ),
                   ),
+                  new Spacer(),
                   SvgPicture.asset(
                     'assets/icons/location.svg',
                     height: 20,
@@ -145,7 +147,7 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
                     color: Colors.grey[900],
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                     child: Text(
                       'Horsens, 8700',
                       style: TextStyle(
@@ -165,37 +167,39 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
               Row(
                 children: <Widget>[
                   SvgPicture.asset(
-                    'assets/icons/calendar.svg',
-                    height: 20,
-                    width: 20,
-                    color: Colors.grey[900],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(42, 0, 38, 0),
-                    child: Text(
-                      '27/09/2021',
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey[600],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 30,
-                    child: VerticalDivider(
-                      color: Colors.grey,
-                    ),
-                  ),
-                  SvgPicture.asset(
                     'assets/icons/chronometer.svg',
                     height: 20,
                     width: 20,
                     color: Colors.grey[900],
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(70, 0, 0, 0),
+                    padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                     child: Text(
                       '1 hour',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Colors.grey[600],
+                      ),
+                    ),
+                  ),
+                  new Spacer(),
+                  Container(
+                    height: 30,
+                    child: VerticalDivider(
+                      color: Colors.transparent,
+                    ),
+                  ),
+                  new Spacer(),
+                  SvgPicture.asset(
+                    'assets/icons/calendar.svg',
+                    height: 20,
+                    width: 20,
+                    color: Colors.grey[900],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                    child: Text(
+                      '27/09/2021',
                       style: TextStyle(
                         fontSize: 13,
                         color: Colors.grey[600],
@@ -326,8 +330,6 @@ class _TaskDetailScreenState extends State<TaskDetailScreen> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
-
-
 
   void deductionDialog(BuildContext context) => showDialog(
     context: context,
