@@ -1,3 +1,4 @@
+import 'package:advella/Auth/profile_screen.dart';
 import 'package:advella/Auth/register_screen.dart';
 import 'package:advella/models/user_model.dart';
 import 'package:advella/services/auth_service.dart';
@@ -27,6 +28,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    UserLocalStorageService().isLoggedIn().then((value) => {
+      if(value){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ProfileScreen()),
+          )
+      }
+    });
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
@@ -132,10 +143,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 }
                                 else {
                                   await _authStorage.saveUser(user).then((value) => {
-                                    print(_authStorage.getUser())
+
+                                      Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const ProfileScreen()),
+                                    )
                                   });
-                                  print(user.toString());
-                                  // widget.loginUser(user);
                                 }
                               }
                             },
