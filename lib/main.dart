@@ -1,3 +1,4 @@
+import 'package:advella/Auth/login_screen.dart';
 import 'package:advella/screens/bottom_nav_bar.dart';
 import 'package:advella/screens/browse_screen_map.dart';
 import 'package:advella/screens/filter_screen.dart';
@@ -40,8 +41,9 @@ void main() {
       '/postTaskDetail': (BuildContext context) => new PostTaskDetailScreen(),
       '/filter': (BuildContext context) => new FilterScreen(),
       '/register': (BuildContext context) => new RegisterScreen(),
+      '/login': (BuildContext context) => new LoginScreen(),
     },
-    home: BottomNavBar(),
+    home: LoginScreen(),
   ));
 }
 

@@ -1,4 +1,5 @@
 import 'package:advella/Auth/login_screen.dart';
+import 'package:advella/Auth/profile_screen.dart';
 import 'package:advella/screens/products_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
     MyTasksScreen(),
     // PostTaskScreen(),
     // InboxScreen(),
-    LoginScreen(),
+    ProfileScreen(),
   ];
 
   void onTap(int index)

@@ -18,8 +18,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Text("Profile"),
           TextButton(onPressed: () async{
             await UserLocalStorageService().removeUser();
-            Navigator.pop(context);
-          }, child: Text("Logoug"))
+            Navigator.pushReplacementNamed(context, "/login");
+          }, child: Text("Log out"))
         ],
       ),
     );
