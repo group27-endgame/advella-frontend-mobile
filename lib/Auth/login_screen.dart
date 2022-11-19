@@ -1,3 +1,4 @@
+import 'package:advella/Auth/register_screen.dart';
 import 'package:advella/models/user_model.dart';
 import 'package:advella/services/auth_service.dart';
 import 'package:advella/services/local_storage/localstorage_user_service.dart';
@@ -105,8 +106,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             Text("Don't have account yet?"),
                             TextButton(
                               onPressed: () {
-                                // widget.register();
-                                //TODO: open register and replace this
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const RegisterScreen()),
+                                );
                               },
                               child: Text("Click here to register!"),
                             )
