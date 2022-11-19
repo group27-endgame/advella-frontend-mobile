@@ -1,78 +1,165 @@
+import 'package:advella/Auth/register_screen.dart';
+import 'package:advella/models/user_model.dart';
+import 'package:advella/services/auth_service.dart';
+import 'package:advella/services/local_storage/localstorage_user_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 
-class LoginScreen extends StatelessWidget {
+import '../constants.dart';
+
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+
+  final _authService = AuthService();
+  final _authStorage = UserLocalStorageService();
+
+  final _formKey = GlobalKey<FormState>();
+
+  String _username = "", _password = "", _errorMessage = "";
+  bool _error = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-        icon: Icon(Icons.arrow_back_ios),
-        color: Colors.grey[400],
-        onPressed: () {}
-        ),
+        elevation: 0
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(40, 40, 40, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text("Welcome to FindHelpie!", style: TextStyle(color: Colors.grey, fontSize: 16),),
-            Column(
-              children: [
-                Image.asset('assets/images/facebook.png',width: double.infinity,),
-                Image.asset('assets/images/google.png',width: double.infinity,),
-              ],
+      body: Stack(
+        children: [
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("assets/images/bg.png"),
+                    fit: BoxFit.cover,
+                    colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken)
+                )
             ),
-            Column(
-              children: [
-                TextFormField(
-                  keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      hintText: "Email Address"
-                  ),
-                  validator: MultiValidator(
-                      [
-                        EmailValidator(errorText: "Use valid email!"),
-                        RequiredValidator(errorText: "Email is required!"),
-                      ]
+            child: Padding(
+              padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.3),
+              child: Container(
+                width: double.infinity,
+                height: double.infinity,
+                decoration: BoxDecoration(
+                    color: colorGrey,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(50)
+                    )
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(defaultPadding, defaultPadding*2.2, defaultPadding, defaultPadding/2),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        TextFormField(
+                          validator: MultiValidator(
+                              [
+                                RequiredValidator(errorText: "Username is required")
+                              ]
+                          ),
+                          obscureText: false,
+                          onChanged: (username){
+                            setState(() {
+                              _username = username;
+                            });
+                          },
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Username"
+                          ),
+                        ),
+                        SizedBox(height: defaultPadding,),
+                        TextFormField(
+                          validator: MultiValidator(
+                              [
+                                RequiredValidator(errorText: "Password field is required"),
+                                MinLengthValidator(5, errorText: "Password must have at least 5 characters")
+                              ]
+                          ),
+                          obscureText: true,
+                          onChanged: (password) {
+                            setState(() {
+                              _password = password;
+                            });
+                          },
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              labelText: "Password"
+                          ),
+                        ),
+                        SizedBox(height: defaultPadding/2,),
+                        Row(
+                          children: [
+                            Text("Don't have account yet?"),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const RegisterScreen()),
+                                );
+                              },
+                              child: Text("Click here to register!"),
+                            )
+                          ],
+                        ),
+                        SizedBox(height: defaultPadding/2,),
+                        _error ? Text(_errorMessage, style: TextStyle(color: Colors.red),) : Container(),
+                        _error ? SizedBox(height: defaultPadding/2,) : Container(),
+                        Container(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () async{
+                              if(_formKey.currentState!.validate()) {
+                                var user = await _authService.loginUser(
+                                    _username, _password);
+                                if (user == null) {
+                                  print("Error");
+                                  _error = true;
+                                  _errorMessage = "Wrong password or account does not exist";
+                                }
+                                else {
+                                  await _authStorage.saveUser(user).then((value) => {
+                                    print(_authStorage.getUser())
+                                  });
+                                  print(user.toString());
+                                  // widget.loginUser(user);
+                                }
+                              }
+                            },
+                            child: Text("Login"),
+                            style: ElevatedButton.styleFrom(primary: Colors.red),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-                TextFormField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                      hintText: "Password",
-                  ),
-                  validator: MultiValidator(
-                      [
-                        EmailValidator(errorText: "Use valid email!"),
-                        RequiredValidator(errorText: "Email is required!"),
-                      ]
-                  ),
-                ),
-              ],
+              ),
             ),
-            Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Don't have an account yet?"),
-                    TextButton(onPressed: (){
-                      Navigator.pushNamed(context, "/register");
-                    }, child: Text("Register")),
-                  ],
+          ),
+          Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height*0.14,
                 ),
-                ElevatedButton(onPressed: (){}, child: Text("Login")),
-              ],
-            )
-          ],
-        ),
+                child: Text("Login", style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold),),
+              )
+          ),
+        ],
       ),
     );
   }
