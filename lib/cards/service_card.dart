@@ -222,42 +222,52 @@ class _ServicesCardState extends State<ServicesCard> {
                           ),
 
                           new Spacer(),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 7, 0),
-                            child: Icon(
-                              Icons.mode_comment_outlined,
-                              size: 18,
-                              color: Colors.grey[700],
+                          GestureDetector(
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(0, 0, 7, 0),
+                                  child: Icon(
+                                    Icons.mode_comment_outlined,
+                                    size: 18,
+                                    color: Colors.grey[700],
+                                  ),
+                                ),
+                                Text(
+                                  'Chat',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Colors.grey[700],
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          Text(
-                            'Comment',
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.grey[700],
-                            ),
+                            onTap: () => chatDialog(context, widget.services[index]),
                           ),
                           new Spacer(),
-                          Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 7, 0),
-                                child: SvgPicture.asset(
-                                  'assets/icons/payment.svg',
-                                  width: 18,
-                                  height: 18,
-                                  color: Colors.blueAccent,
+                          GestureDetector(
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(0, 0, 7, 0),
+                                  child: SvgPicture.asset(
+                                    'assets/icons/payment.svg',
+                                    width: 18,
+                                    height: 18,
+                                    color: Colors.blueAccent,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                'Bid',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.blueAccent,
+                                Text(
+                                  'Bid',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.blueAccent,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
+                            onTap: () => bidDialog(context, widget.services[index]),
                           ),
 
 
@@ -273,4 +283,172 @@ class _ServicesCardState extends State<ServicesCard> {
       },
     );
   }
+
+  void bidDialog(BuildContext context, Service service) => showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return SimpleDialog(
+        title: const Text('Bid'),
+        children: <Widget>[
+          SimpleDialogOption(
+            child: Column(
+              children: [
+                Image.asset(
+                  'assets/gifs/add-service-gif.gif',
+                  height: 130,
+                  width: 130,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 5, bottom: 10),
+                  child: Text(
+                    'Post a service listing if you need help for a service',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: (){},
+                  child: Text(
+                      'Post Service'
+                  ),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: Container(
+                    width: 180,
+                    child: Divider(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                Image.asset(
+                  'assets/gifs/add-product-gif.gif',
+                  height: 180,
+                  width: 180,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 5, bottom: 10),
+                  child: Text(
+                    'Post a product listing if you need to sell a product',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: (){},
+                  child: Text(
+                      'Post Product'
+                  ),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    },
+  );
+
+
+  void chatDialog(BuildContext context, Service service) => showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return SimpleDialog(
+        title: const Text('Chat with the poster'),
+        children: <Widget>[
+          SimpleDialogOption(
+            child: Column(
+              children: [
+                CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/nitin1.jpg'),
+                  radius: 60,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                  child: Text(
+                    '${service.userPosted.userEmail}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.star,
+                      size: 25,
+                      color: Colors.yellow,
+                    ),
+                    Icon(
+                      Icons.star,
+                      size: 25,
+                      color: Colors.yellow,
+                    ),
+                    Icon(
+                      Icons.star,
+                      size: 25,
+                      color: Colors.yellow,
+                    ),
+                    Icon(
+                      Icons.star,
+                      size: 25,
+                      color: Colors.yellow,
+                    ),
+                    Icon(
+                      Icons.star,
+                      size: 25,
+                      color: Colors.grey,
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: Text(
+                    '${service.userPosted.description}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: (){},
+                  child: Text(
+                      'Start chatting'
+                  ),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    },
+  );
 }
