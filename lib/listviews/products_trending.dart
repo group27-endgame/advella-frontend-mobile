@@ -28,62 +28,57 @@ class _ProductsTrendingState extends State<ProductsTrending> {
           );
         }
         else {
-          return GestureDetector(
-            onTap: () {
-              Navigator.of(context).pushNamed('/taskDetail');
-            },
-            child: Container(
-              margin: const EdgeInsets.fromLTRB(20, 20, 15, 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    width: 200,
-                    height: 180,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      //color: Colors.white,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: AssetImage(
-                          widget.trendingProducts[index].image,
-                        ),
+          return Container(
+            margin: const EdgeInsets.fromLTRB(20, 20, 15, 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  width: 200,
+                  height: 180,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    //color: Colors.white,
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage(
+                        widget.trendingProducts[index].image,
                       ),
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 5, bottom: 5),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          widget.trendingProducts[index].title,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[600],
-                          ),
+                ),
+                Container(
+                  margin: const EdgeInsets.only(top: 5, bottom: 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        widget.trendingProducts[index].title,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey[600],
                         ),
+                      ),
 
-                        Text(
-                          widget.trendingProducts[index].price,
-                          style: TextStyle(
-                            fontSize: 17,
-                            color: Colors.grey[700],
+                      Text(
+                        widget.trendingProducts[index].price,
+                        style: TextStyle(
+                          fontSize: 17,
+                          color: Colors.grey[700],
 
-                          ),
                         ),
-                        Text(
-                          widget.trendingProducts[index].location,
-                          style: TextStyle(
-                              fontSize: 10,
-                              color: Colors.grey
-                          ),
+                      ),
+                      Text(
+                        widget.trendingProducts[index].location,
+                        style: TextStyle(
+                            fontSize: 10,
+                            color: Colors.grey
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         }

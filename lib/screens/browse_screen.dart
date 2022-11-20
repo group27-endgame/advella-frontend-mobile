@@ -323,13 +323,95 @@ class _BrowseScreenState extends State<BrowseScreen>
             ),
             floatingActionButton: FloatingActionButton(
               child: Icon(Icons.add),
-              onPressed: () {},
+              onPressed: () => addPostDialog(context),
             )
             ,
           );
         }
     );
   }
+
+  void addPostDialog(BuildContext context) => showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return SimpleDialog(
+        title: const Text('Post'),
+        children: <Widget>[
+          SimpleDialogOption(
+            child: Column(
+              children: [
+                Image.asset(
+                  'assets/gifs/add-service-gif.gif',
+                  height: 130,
+                  width: 130,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 5, bottom: 10),
+                  child: Text(
+                    'Post a service listing if you need help for a service',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: (){},
+                  child: Text(
+                      'Post Service'
+                  ),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: Container(
+                    width: 180,
+                    child: Divider(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                Image.asset(
+                  'assets/gifs/add-product-gif.gif',
+                  height: 180,
+                  width: 180,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 5, bottom: 10),
+                  child: Text(
+                    'Post a product listing if you need to sell a product',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: (){},
+                  child: Text(
+                      'Post Product'
+                  ),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    },
+  );
 }
 
 class CircleTabIndicator extends Decoration {
@@ -363,217 +445,3 @@ class _CirclePainter extends BoxPainter {
   }
 
 }
-
-// return SafeArea(
-//   child: Scaffold(
-//     backgroundColor: Colors.white,
-//     body: Container(
-//       // decoration: BoxDecoration(
-//       //   image: DecorationImage(
-//       //     image: AssetImage("assets/images/backWall.jpg"),
-//       //     fit: BoxFit.cover,
-//       //   ),
-//       // ),
-//       child: Column(
-//         children: <Widget>[
-//           Padding(
-//             padding: EdgeInsets.fromLTRB(10, 5, 10, 0),
-//             child: TextField(
-//               textAlignVertical: TextAlignVertical.center,
-//               decoration: InputDecoration(
-//                 border: OutlineInputBorder(
-//                   borderRadius: BorderRadius.circular(10.0),
-//                 ),
-//                 hintText: 'Search',
-//                 prefixIcon: Icon(Icons.search),
-//               ),
-//             ),
-//           ),
-//           Row(
-//             children: <Widget>[
-//               Padding(
-//                 padding: const EdgeInsets.fromLTRB(10, 3, 0, 0),
-//                 child: DropdownButtonHideUnderline(
-//                   child: DropdownButton(
-//                     value: _value,
-//                     style: TextStyle(
-//                       color: Colors.grey,
-//                     ),
-//                     items: [
-//                       DropdownMenuItem(
-//                         child: Text("Latest"),
-//                         value: 1,
-//                       ),
-//                       DropdownMenuItem(
-//                         child: Text("Oldest"),
-//                         value: 2,
-//                       ),
-//                     ],
-//                     onChanged: (int? value) {
-//                       setState(() {
-//                         _value = value;
-//                       });
-//                     },
-//                   ),
-//                 ),
-//               ),
-//               new Spacer(),
-//               IconButton(
-//                 onPressed: () => Navigator.of(context).pushNamed('/filter'),
-//                 icon: Icon(Icons.filter_alt_outlined),
-//                 color: Colors.grey,
-//               ),
-//               IconButton(
-//                 onPressed: () {
-//                   Navigator.pushNamed(context, "/browseMap");
-//                 },
-//                 icon: Icon(Icons.location_on_outlined),
-//                 color: Colors.grey,
-//               ),
-//             ],
-//           ),
-//           Expanded(
-//             child: ListView(
-//               children: tasks.map((task) => TaskCard(
-//                 task: task,
-//               )).toList(),
-//             ),
-//           ),
-//         ],
-//       ),
-//     ),
-//   ),
-// );
-
-
-//////////////////////////////////////////////////
-/*
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Container(
-          width: double.infinity,
-          height: 50,
-          color: Colors.white,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Expanded(
-                child: TextField(
-                  textAlignVertical: TextAlignVertical.bottom,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    hintText: 'Search',
-                    prefixIcon: Icon(Icons.search),
-                    ),
-                  ),
-              ),
-
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.filter_alt),
-                color: Colors.blue,
-                  ),
-              IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.location_on_outlined),
-                color: Colors.blue,
-                  ),
-            ],
-          ),
-        ),
-      ),
-      body: Column(
-        children: tasks.map((task) => TaskCard(
-          task: task,
-        )).toList(),
-      ),
-    );
-    */
-///////////////////////////////////////////////////////////////////////
-
-
-// child: Column(
-//   children: <Widget>[
-//     Center(
-//     child: TextField(
-//       textAlignVertical: TextAlignVertical.bottom,
-//       decoration: InputDecoration(
-//         border: OutlineInputBorder(
-//           borderRadius: BorderRadius.circular(10.0),
-//         ),
-//         hintText: 'Search',
-//         prefixIcon: Icon(Icons.search),
-//         ),
-//       ),
-//     ),
-//     Text('Latest'),
-//   ],
-// ),
-
-
-// body: Column(
-//     children: [
-//       Text('data'),
-//       ListView.builder(
-//         itemCount: tasks.length,
-//         itemBuilder: (itemBuilder, index) {
-//           return Padding(
-//             padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
-//             child: Card(
-//               margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
-//               child: Card(
-//                 child: ListTile(
-//                   onTap: () {},
-//                   title: Text(tasks[index].title),
-//                 ),
-//               ),
-//             ),
-//           );
-//
-//         },
-//       )
-//     ],
-// ),
-//   body: ListView.builder(
-//       itemCount: tasks.length,
-//       itemBuilder: (itemBuilder, index) {
-//         return Padding(
-//           padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
-//           child: Card(
-//             margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.stretch,
-//               children: <Widget>[
-//                 Text(
-//                   task.title,
-//                 ),
-//                 Text(
-//                   task.location,
-//                 ),
-//                 Text(
-//                   task.price,
-//                 ),
-//                 Text(
-//                   task.duration,
-//                 ),
-//                 Text(
-//                   task.dueDate,
-//                 ),
-//               ],
-//             ),
-//           ),
-//         );
-//
-//       },
-// )
-
-// body: Column(
-//   children: tasks.map((task) => TaskCard(
-//     task: task,
-//   )).toList(),
-// ),
