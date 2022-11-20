@@ -14,6 +14,9 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
+
+  var bidScrollAmountList = new List<int>.generate(1000, (i) => i + 1);
+
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
@@ -208,7 +211,7 @@ class _ProductCardState extends State<ProductCard> {
                     margin: const EdgeInsets.only(top: 5, bottom: 5),
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: (){},
+                      onPressed: () => bidDialog(context, widget.products[index]),
                       child: Text(
                         'Bid'
                       ),
@@ -231,130 +234,89 @@ class _ProductCardState extends State<ProductCard> {
       }
     );
   }
+
+  void bidDialog(BuildContext context, Product product) => showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return SimpleDialog(
+        title: const Text('Bid the amount'),
+        children: <Widget>[
+          SimpleDialogOption(
+            child: Column(
+              children: [
+                Text(
+                  'Listed amount: ${product.price}',
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+                Container(
+                  height: 375,
+                  width: double.infinity,
+                  child: ListWheelScrollView.useDelegate(
+                    itemExtent: 60,
+                    physics: FixedExtentScrollPhysics(),
+                    diameterRatio: 1.0,
+                    useMagnifier: true,
+                    magnification: 1.5,
+                    childDelegate: ListWheelChildBuilderDelegate(
+                        childCount: bidScrollAmountList.length,
+                        builder: (BuildContext context, int index) {
+                          if (bidScrollAmountList.isEmpty) {
+                            return Container(
+                              child: Center(
+                                child: Text('No money amount exist'),
+                              ),
+                            );
+                          }
+                          else
+                          {
+                            return Container(
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 13, bottom: 5),
+                                child: Text(
+                                  '${bidScrollAmountList[index]} kr',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                        }
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: (){},
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Bid',
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    },
+  );
 }
-    // return SafeArea(
-    //   child: GridView.builder(
-    //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-    //       crossAxisCount: 2,
-    //     ),
-    //     itemCount: widget.products.length,
-    //     itemBuilder: (context, index) {
-    //       if(widget.products.length == 0)
-    //         {
-    //           return Container(
-    //             child: Center(
-    //               child: Text(
-    //                 'No products to show',
-    //               ),
-    //             ),
-    //           );
-    //         }
-    //       else
-    //         {
-    //           return GridTile(
-    //             child: Image.asset(
-    //               widget.products[index].image,
-    //               fit: BoxFit.cover,
-    //             ),
-    //             footer: Column(
-    //               crossAxisAlignment: CrossAxisAlignment.start,
-    //               children: <Widget>[
-    //                 Padding(
-    //                   padding: const EdgeInsets.fromLTRB(10, 5, 0, 3),
-    //                   child: Stack(
-    //                     children: <Widget>[
-    //                       Text(
-    //                         widget.products[index].title,
-    //                         style: TextStyle(
-    //                           fontSize: 16,
-    //                           decorationColor: Colors.white,
-    //                           //color: Colors.white,
-    //                           foreground: Paint()
-    //                             ..style = PaintingStyle.stroke
-    //                             ..strokeWidth = 0.8
-    //                             ..color = Colors.black,
-    //                         ),
-    //                       ),
-    //                       Text(
-    //                         widget.products[index].title,
-    //                         style: TextStyle(
-    //                           fontSize: 16,
-    //                           decorationColor: Colors.white,
-    //                           color: Colors.white,
-    //                         ),
-    //                       ),
-    //                     ]
-    //                   ),
-    //                 ),
-    //                 Padding(
-    //                   padding: const EdgeInsets.fromLTRB(10, 0, 0, 5),
-    //                   child: Text(
-    //                     widget.products[index].price,
-    //                     style: TextStyle(
-    //                       fontSize: 12,
-    //                       fontWeight: FontWeight.bold,
-    //                       color: Colors.white,
-    //                     ),
-    //                   ),
-    //                 ),
-    //                 Padding(
-    //                   padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
-    //                   child: Text(
-    //                     widget.products[index].location,
-    //                     style: TextStyle(
-    //                       fontSize: 11,
-    //                       color: Colors.white,
-    //                     ),
-    //                   ),
-    //                 ),
-    //               ],
-    //             ),
-    //           );
-    //           // return Padding(
-    //           //   padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-    //           //   child: Container(
-    //           //     child: Column(
-    //           //       crossAxisAlignment: CrossAxisAlignment.start,
-    //           //       children: <Widget>[
-    //           //         ClipRRect(
-    //           //           borderRadius: BorderRadius.circular(12),
-    //           //           child: Image.asset(
-    //           //               widget.products[index].image,
-    //           //           ),
-    //           //         ),
-    //           //         Padding(
-    //           //           padding: const EdgeInsets.fromLTRB(10, 5, 0, 3),
-    //           //           child: Text(
-    //           //             widget.products[index].title,
-    //           //             style: TextStyle(
-    //           //               fontSize: 15,
-    //           //             ),
-    //           //           ),
-    //           //         ),
-    //           //         Padding(
-    //           //           padding: const EdgeInsets.fromLTRB(10, 0, 0, 5),
-    //           //           child: Text(
-    //           //             widget.products[index].price,
-    //           //             style: TextStyle(
-    //           //               fontSize: 12,
-    //           //             ),
-    //           //           ),
-    //           //         ),
-    //           //         Padding(
-    //           //           padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-    //           //           child: Text(
-    //           //             widget.products[index].location,
-    //           //             style: TextStyle(
-    //           //               fontSize: 10,
-    //           //               color: Colors.grey[700],
-    //           //             ),
-    //           //           ),
-    //           //         ),
-    //           //       ],
-    //           //     ),
-    //           //   ),
-    //           // );
-    //         }
-    //     },
-    //   ),
-    // );

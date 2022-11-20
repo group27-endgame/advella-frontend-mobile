@@ -295,6 +295,12 @@ class _ServicesCardState extends State<ServicesCard> {
           SimpleDialogOption(
             child: Column(
               children: [
+                Text(
+                  'Listed amount: ${service.moneyAmount} kr',
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
                 Container(
                   height: 375,
                   width: double.infinity,
