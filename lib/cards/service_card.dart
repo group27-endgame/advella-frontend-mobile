@@ -17,6 +17,8 @@ class _ServicesCardState extends State<ServicesCard> {
   int likeColorIncrement = 0;
   bool likeColorBlue = false;
 
+  var bidScrollAmountList = new List<int>.generate(1000, (i) => i + 1);
+
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
@@ -288,67 +290,64 @@ class _ServicesCardState extends State<ServicesCard> {
     context: context,
     builder: (BuildContext context) {
       return SimpleDialog(
-        title: const Text('Bid'),
+        title: const Text('Bid the amount'),
         children: <Widget>[
           SimpleDialogOption(
             child: Column(
               children: [
-                Image.asset(
-                  'assets/gifs/add-service-gif.gif',
-                  height: 130,
-                  width: 130,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 5, bottom: 10),
-                  child: Text(
-                    'Post a service listing if you need help for a service',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 15,
+                Container(
+                  height: 375,
+                  width: double.infinity,
+                  child: ListWheelScrollView.useDelegate(
+                    itemExtent: 60,
+                    physics: FixedExtentScrollPhysics(),
+                    diameterRatio: 1.0,
+                    useMagnifier: true,
+                    magnification: 1.5,
+                    childDelegate: ListWheelChildBuilderDelegate(
+                      childCount: bidScrollAmountList.length,
+                      builder: (BuildContext context, int index) {
+                        if (bidScrollAmountList.isEmpty) {
+                          return Container(
+                            child: Center(
+                              child: Text('No money amount exist'),
+                            ),
+                          );
+                        }
+                        else
+                        {
+                          return Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 13, bottom: 5),
+                              child: Text(
+                                '${bidScrollAmountList[index]} kr',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 30,
+                                ),
+                              ),
+                            ),
+                          );
+                        }
+                      }
                     ),
                   ),
                 ),
                 ElevatedButton(
                   onPressed: (){},
-                  child: Text(
-                      'Post Service'
-                  ),
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      'Bid',
+                      style: TextStyle(
+                        fontSize: 18,
                       ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 30),
-                  child: Container(
-                    width: 180,
-                    child: Divider(
-                      color: Colors.grey,
-                    ),
-                  ),
-                ),
-                Image.asset(
-                  'assets/gifs/add-product-gif.gif',
-                  height: 180,
-                  width: 180,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 5, bottom: 10),
-                  child: Text(
-                    'Post a product listing if you need to sell a product',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 15,
-                    ),
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: (){},
-                  child: Text(
-                      'Post Product'
                   ),
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
