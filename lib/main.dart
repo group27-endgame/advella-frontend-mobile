@@ -12,40 +12,135 @@ import 'package:advella/screens/subcategory_screens/grocery_subcategory_screen.d
 import 'package:advella/screens/subcategory_screens/laundry_subcategory_screen.dart';
 import 'package:advella/screens/subcategory_screens/pet_sitter_subcategory_screen.dart';
 import 'package:advella/screens/task_detail_screen.dart';
+import 'package:advella/services/local_storage/localstorage_user_service.dart';
+import 'package:advella/viewmodels/service_viewmodel.dart';
 import 'package:badges/badges.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 import 'Auth/register_screen.dart';
 
+final _authStorage = UserLocalStorageService();
+
 void main() {
-  runApp(MaterialApp(
-    // theme: ThemeData(
-    //     textTheme: GoogleFonts.solwayTextTheme(
-    //       Theme.of().textTheme,
-    //     ),
-    // ),
-    debugShowCheckedModeBanner: false,
-    routes: {
-      '/taskDetail': (BuildContext context) => new TaskDetailScreen(),
-      '/browseMap': (BuildContext context) => new BrowseMap(),
-      '/gardeningSubcategory': (BuildContext context) => new GardeningSubcategoryScreen(),
-      '/deliverySubcategory': (BuildContext context) => new DeliverySubcategoryScreen(),
-      '/petSitterSubcategory': (BuildContext context) => new PetSitterSubcategoryScreen(),
-      '/cleaningSubcategory': (BuildContext context) => new CleaningSubcategoryScreen(),
-      '/grocerySubcategory': (BuildContext context) => new GrocerySubcategoryScreen(),
-      '/furnitureSubcategory': (BuildContext context) => new FurnitureSubcategoryScreen(),
-      '/driverSubcategory': (BuildContext context) => new DriverSubcategoryScreen(),
-      '/laundrySubcategory': (BuildContext context) => new LaundrySubcategoryScreen(),
-      '/postTaskDetail': (BuildContext context) => new PostTaskDetailScreen(),
-      '/filter': (BuildContext context) => new FilterScreen(),
-      '/register': (BuildContext context) => new RegisterScreen(),
-      '/login': (BuildContext context) => new LoginScreen(),
-    },
-    home: LoginScreen(),
-  ));
+  runApp(const MyApp());
 }
+
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ServiceViewModel()),
+        // ChangeNotifierProvider(create: (_) => TurbineViewModel()),
+        // ChangeNotifierProvider(create: (_) => VisitViewModel()),
+        // ChangeNotifierProvider(create: (_) => DeviationViewModel()),
+      ],
+      child: MaterialApp(
+        // localizationsDelegates: AppLocalizations.localizationsDelegates, // <- here
+        // supportedLocales: AppLocalizations.supportedLocales, // <- and here
+        // localizationsDelegates: AppLocalizations.localizationsDelegates, // <- here
+        // supportedLocales: AppLocalizations.supportedLocales, // <- and here
+        navigatorKey: navigatorKey,
+        title: 'Advella',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          brightness: Brightness.light,
+          primarySwatch: Colors.blue,
+          // elevatedButtonTheme: ElevatedButtonThemeData(
+          //     style: TextButton.styleFrom(backgroundColor: primaryColorButton)
+          // ),
+          // inputDecorationTheme: InputDecorationTheme(
+          //     border: textFieldBorder,
+          //     enabledBorder: textFieldBorder,
+          //     focusedBorder: textFieldBorder
+          // ),
+        ),
+        themeMode: ThemeMode.light,
+        home: LoginScreen(),
+        routes: {
+          '/taskDetail': (BuildContext context) => new TaskDetailScreen(),
+          '/browseMap': (BuildContext context) => new BrowseMap(),
+          '/gardeningSubcategory': (BuildContext context) => new GardeningSubcategoryScreen(),
+          '/deliverySubcategory': (BuildContext context) => new DeliverySubcategoryScreen(),
+          '/petSitterSubcategory': (BuildContext context) => new PetSitterSubcategoryScreen(),
+          '/cleaningSubcategory': (BuildContext context) => new CleaningSubcategoryScreen(),
+          '/grocerySubcategory': (BuildContext context) => new GrocerySubcategoryScreen(),
+          '/furnitureSubcategory': (BuildContext context) => new FurnitureSubcategoryScreen(),
+          '/driverSubcategory': (BuildContext context) => new DriverSubcategoryScreen(),
+          '/laundrySubcategory': (BuildContext context) => new LaundrySubcategoryScreen(),
+          '/postTaskDetail': (BuildContext context) => new PostTaskDetailScreen(),
+          '/filter': (BuildContext context) => new FilterScreen(),
+          '/register': (BuildContext context) => new RegisterScreen(),
+          '/login': (BuildContext context) => new LoginScreen(),
+        },
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+// void main() {
+//   runApp(MaterialApp(
+//     // theme: ThemeData(
+//     //     textTheme: GoogleFonts.solwayTextTheme(
+//     //       Theme.of().textTheme,
+//     //     ),
+//     // ),
+//     debugShowCheckedModeBanner: false,
+//     routes: {
+//       '/taskDetail': (BuildContext context) => new TaskDetailScreen(),
+//       '/browseMap': (BuildContext context) => new BrowseMap(),
+//       '/gardeningSubcategory': (BuildContext context) => new GardeningSubcategoryScreen(),
+//       '/deliverySubcategory': (BuildContext context) => new DeliverySubcategoryScreen(),
+//       '/petSitterSubcategory': (BuildContext context) => new PetSitterSubcategoryScreen(),
+//       '/cleaningSubcategory': (BuildContext context) => new CleaningSubcategoryScreen(),
+//       '/grocerySubcategory': (BuildContext context) => new GrocerySubcategoryScreen(),
+//       '/furnitureSubcategory': (BuildContext context) => new FurnitureSubcategoryScreen(),
+//       '/driverSubcategory': (BuildContext context) => new DriverSubcategoryScreen(),
+//       '/laundrySubcategory': (BuildContext context) => new LaundrySubcategoryScreen(),
+//       '/postTaskDetail': (BuildContext context) => new PostTaskDetailScreen(),
+//       '/filter': (BuildContext context) => new FilterScreen(),
+//       '/register': (BuildContext context) => new RegisterScreen(),
+//       '/login': (BuildContext context) => new LoginScreen(),
+//     },
+//     home: LoginScreen(),
+//   ));
+// }
 
 // class MyApp extends StatefulWidget {
 //   const MyApp({Key? key}) : super(key: key);

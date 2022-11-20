@@ -13,6 +13,10 @@ class ServicesCard extends StatefulWidget {
 }
 
 class _ServicesCardState extends State<ServicesCard> {
+
+  int likeColorIncrement = 0;
+  bool likeColorBlue = false;
+
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
@@ -31,10 +35,9 @@ class _ServicesCardState extends State<ServicesCard> {
         else {
           return GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed('/taskDetail');
+              //Navigator.of(context).pushNamed('/taskDetail');
             },
             child: SizedBox(
-
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                 child: Column(
@@ -45,7 +48,8 @@ class _ServicesCardState extends State<ServicesCard> {
                       child: Row(
                         children: <Widget>[
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(0, 0, 2, 0),
@@ -59,32 +63,36 @@ class _ServicesCardState extends State<ServicesCard> {
                                   ),
                                 ),
                               ),
-                              Column(
-                                children: [
-                                  Text(
-                                    '${widget.services[index].category} · ${widget.services[index].timeSincePosted}',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.grey[600]
-                                    ),
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      Icon(
-                                        Icons.location_on_outlined,
-                                        size: 10,
-                                        color: Colors.grey,
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 5),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${widget.services[index].serviceCategory.title} ·', /*${DateTime.fromMillisecondsSinceEpoch(widget.services[index].postedDateTime).*/
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey[600]
                                       ),
-                                      Text(
-                                        widget.services[index].location,
-                                        style: TextStyle(
-                                          fontSize: 10,
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.location_on_outlined,
+                                          size: 10,
                                           color: Colors.grey,
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                        Text(
+                                          widget.services[index].location,
+                                          style: TextStyle(
+                                            fontSize: 10,
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -112,14 +120,16 @@ class _ServicesCardState extends State<ServicesCard> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: <Widget>[
                               Text(
-                                widget.services[index].price,
+                                '${widget.services[index].moneyAmount.toString()} kr',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Colors.grey[800],
                                 ),
                               ),
                               Text(
-                                widget.services[index].dueDate,
+                                '${DateTime.fromMillisecondsSinceEpoch(widget.services[index].deadline).day}-'
+                                    '${DateTime.fromMillisecondsSinceEpoch(widget.services[index].deadline).month}-'
+                                    '${DateTime.fromMillisecondsSinceEpoch(widget.services[index].deadline).year}',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Colors.grey[800],
@@ -143,14 +153,14 @@ class _ServicesCardState extends State<ServicesCard> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
                       child: Text(
-                        widget.services[index].description,
+                        widget.services[index].detail,
                         style: TextStyle(
                           fontSize: 13,
                         ),
                       ),
                     ),
                     Image.asset(
-                      widget.services[index].image,
+                     widget.services[index].serviceId % 2 == 0 ? "assets/images/phone_repair.jpg" : "assets/images/grass2.jpg",
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 10, 10, 0),
@@ -175,21 +185,42 @@ class _ServicesCardState extends State<ServicesCard> {
                       padding: const EdgeInsets.fromLTRB(30, 2, 30, 10),
                       child: Row(
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 7, 0),
-                            child: Icon(
-                              Icons.thumb_up_alt_outlined,
-                              size: 18,
-                              color: Colors.grey[700],
+                          GestureDetector(
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(0, 0, 7, 0),
+                                  child: Icon(
+                                    Icons.thumb_up_alt_outlined,
+                                    size: 18,
+                                    color: likeColorBlue ? Colors.blue : Colors.grey[700],
+                                  ),
+                                ),
+                                Text(
+                                  'Like',
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: likeColorBlue ? Colors.blue : Colors.grey[700],
+                                  ),
+                                ),
+                              ],
                             ),
+                            onTap: () {
+                              setState(() {
+                                likeColorIncrement++;
+
+                                if(likeColorIncrement % 2 == 0)
+                                  {
+                                    likeColorBlue = false;
+                                  }
+                                else
+                                  {
+                                    likeColorBlue = true;
+                                  }
+                              });
+                            },
                           ),
-                          Text(
-                            'Like',
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.grey[700],
-                            ),
-                          ),
+
                           new Spacer(),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 0, 7, 0),
@@ -207,21 +238,28 @@ class _ServicesCardState extends State<ServicesCard> {
                             ),
                           ),
                           new Spacer(),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 7, 0),
-                            child: Icon(
-                              Icons.share_outlined,
-                              size: 18,
-                              color: Colors.grey[700],
-                            ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 7, 0),
+                                child: SvgPicture.asset(
+                                  'assets/icons/payment.svg',
+                                  width: 18,
+                                  height: 18,
+                                  color: Colors.blueAccent,
+                                ),
+                              ),
+                              Text(
+                                'Bid',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.blueAccent,
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            'Share',
-                            style: TextStyle(
-                              fontSize: 13,
-                              color: Colors.grey[700],
-                            ),
-                          ),
+
 
                         ],
                       ),

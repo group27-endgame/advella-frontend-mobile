@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class ServicesTrending extends StatefulWidget {
 
-  var trendingServices = <Service>[];
+  var trendingServices = <OldService>[];
 
   ServicesTrending(this.trendingServices);
 
