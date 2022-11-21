@@ -46,19 +46,19 @@ class _BottomNavBarState extends State<BottomNavBar> {
         elevation: 0,
         items: [
           BottomNavigationBarItem(
-              title: Text('Browse'),
+              label: 'Browse',
               icon: Icon(Icons.home)
           ),
           BottomNavigationBarItem(
-              title: Text('My Items'),
+              label: 'My Items',
               icon: Icon(Icons.bar_chart_sharp)
           ),
           BottomNavigationBarItem(
-              title: Text('Chat'),
+              label: 'Chat',
               icon: Icon(Icons.chat)
           ),
           BottomNavigationBarItem(
-              title: Text('Account'),
+              label: 'Account',
               icon: Icon(Icons.person)
           ),
         ],

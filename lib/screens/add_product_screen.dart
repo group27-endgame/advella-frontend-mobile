@@ -1,23 +1,23 @@
 import 'dart:io';
 
-import 'package:advella/models/service_category.dart';
+import 'package:advella/models/product_category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
-class AddServiceScreen extends StatefulWidget {
-  
-  var categories = <ServiceCategory>[];
-  
-  AddServiceScreen(this.categories);
+class AddProductScreen extends StatefulWidget {
+
+  var categories = <ProductCategory>[];
+
+  AddProductScreen(this.categories);
 
   @override
-  State<AddServiceScreen> createState() => _AddServiceScreenState();
+  State<AddProductScreen> createState() => _AddProductScreenState();
 }
 
-class _AddServiceScreenState extends State<AddServiceScreen> {
+class _AddProductScreenState extends State<AddProductScreen> {
 
   String _title = '', _description='', _location='', _category='';
   int _duration = 0, _moneyAmount = 0;
@@ -54,7 +54,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                     Container(
                       padding: const EdgeInsets.only(top: 5, left: 0),
                       child: Text(
-                        'Post a service',
+                        'Post a product',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 25,
@@ -226,7 +226,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                           shape:
                           MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(5),
+                                borderRadius: BorderRadius.circular(5),
                                 side: BorderSide(
                                   width: 1,
                                   color: Colors.grey,
@@ -255,16 +255,16 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                   ) : Image.file(image!),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all<Color>(
-                      Colors.white
+                        Colors.white
                     ),
                     shape:
                     MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(2),
-                        side: BorderSide(
-                          width: 1,
-                          color: Colors.grey,
-                        )
+                          borderRadius: BorderRadius.circular(2),
+                          side: BorderSide(
+                            width: 1,
+                            color: Colors.grey,
+                          )
                       ),
                     ),
                   ),
@@ -299,7 +299,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
     );
   }
 
-  void categoryDialog(BuildContext context, List<ServiceCategory> categories) => showDialog(
+  void categoryDialog(BuildContext context, List<ProductCategory> categories) => showDialog(
     context: context,
     builder: (BuildContext context) {
       return SimpleDialog(

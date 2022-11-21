@@ -5,6 +5,7 @@ import 'package:advella/models/product.dart';
 import 'package:advella/models/service.dart';
 import 'package:advella/models/service_category.dart';
 import 'package:advella/models/task.dart';
+import 'package:advella/screens/add_product_screen.dart';
 import 'package:advella/screens/add_service_screen.dart';
 import 'package:advella/viewmodels/category_viewmodel.dart';
 import 'package:advella/viewmodels/product_viewmodel.dart';
@@ -12,6 +13,7 @@ import 'package:advella/viewmodels/service_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../models/product_category.dart';
 import 'browse_services.dart';
 
 class BrowseScreen extends StatefulWidget {
@@ -357,13 +359,13 @@ class _BrowseScreenState extends State<BrowseScreen>
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
-          onPressed: () => addPostDialog(context, categoryViewModel.serviceCategories),
+          onPressed: () => addPostDialog(context, categoryViewModel.serviceCategories, categoryViewModel.productCategories),
         ),
       );
     });
   }
 
-  void addPostDialog(BuildContext context, List<ServiceCategory> serviceCategories) => showDialog(
+  void addPostDialog(BuildContext context, List<ServiceCategory> serviceCategories, List<ProductCategory> productCategories) => showDialog(
         context: context,
         builder: (BuildContext context) {
           return SimpleDialog(
@@ -427,7 +429,10 @@ class _BrowseScreenState extends State<BrowseScreen>
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AddProductScreen(productCategories)),
+                      ),
                       child: Text('Post Product'),
                       style: ButtonStyle(
                         shape:
