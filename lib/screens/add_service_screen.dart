@@ -1,6 +1,9 @@
 import 'dart:io';
 
 import 'package:advella/models/service_category.dart';
+import 'package:advella/screens/bottom_nav_bar.dart';
+import 'package:advella/screens/browse_screen.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -180,7 +183,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                           context: context,
                           initialDate: startDate,
                           firstDate: DateTime(2021),
-                          lastDate: DateTime(2023),
+                          lastDate: DateTime(2024),
                         );
 
                         if(newStartDate == null) return;
@@ -275,7 +278,18 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () => categoryDialog(context, widget.categories),
+                  onPressed: () async {
+                    await Flushbar(
+                      flushbarPosition: FlushbarPosition.TOP,
+                      title: 'Success',
+                      message: 'Your service listing was posted successfully',
+                      duration: Duration(seconds: 3),
+                    ).show(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BottomNavBar()),
+                    );
+                  },
                   child: Text(
                     'Finish',
                     style: TextStyle(

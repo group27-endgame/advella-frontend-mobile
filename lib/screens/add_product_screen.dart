@@ -7,6 +7,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+import 'browse_screen.dart';
+
 class AddProductScreen extends StatefulWidget {
 
   var categories = <ProductCategory>[];
@@ -130,18 +132,24 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   Expanded(
                     child: Container(
                       margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
-                      child: TextFormField(
-                        obscureText: false,
-                        onChanged: (duration){
-                          setState(() {
-                            _duration = duration as int;
-                          });
-                        },
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: "Duration"
+                      child: Text(
+                        'do pice',
+                        style: TextStyle(
+                          color: Colors.transparent,
                         ),
                       ),
+                      // child: TextFormField(
+                      //   obscureText: false,
+                      //   onChanged: (duration){
+                      //     setState(() {
+                      //       _duration = duration as int;
+                      //     });
+                      //   },
+                      //   decoration: InputDecoration(
+                      //       border: OutlineInputBorder(),
+                      //       labelText: "Duration"
+                      //   ),
+                      // ),
                     ),
                   ),
                 ],
@@ -180,7 +188,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           context: context,
                           initialDate: startDate,
                           firstDate: DateTime(2021),
-                          lastDate: DateTime(2023),
+                          lastDate: DateTime(2024),
                         );
 
                         if(newStartDate == null) return;
@@ -275,7 +283,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () => categoryDialog(context, widget.categories),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => BrowseScreen()),
+                  ),
                   child: Text(
                     'Finish',
                     style: TextStyle(

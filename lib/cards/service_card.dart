@@ -457,7 +457,7 @@ class _ServicesCardState extends State<ServicesCard> {
                           return Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              color: Colors.grey[200],
+                              color: Colors.blue[50],
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Padding(
