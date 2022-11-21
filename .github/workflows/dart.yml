@@ -22,6 +22,7 @@ jobs:
       
   create-release:
     if: "contains(github.event.head_commit.message, 'release: ')"
+    needs: build
     runs-on: ubuntu-latest
     
     steps:
@@ -36,7 +37,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         with:
           file: build/app/outputs/flutter-apk/app-release.apk
-          asset_name: advella_${{ github.ref }}.apk
+          asset_name: advella_android.apk
           tag: ${{ github.ref }}
           overwrite: true
           body: "Creating a release"
