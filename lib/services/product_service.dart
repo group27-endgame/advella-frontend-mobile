@@ -65,4 +65,16 @@ class ProductService
     }
     return null;
   }
+
+  Future postProduct(String? token, Product product) async
+  {
+    try {
+      await post(Uri.parse(url), headers: {
+        "Authorization": "Bearer $token", "Content-Type": "application/json"
+      }, body: Product.toJson(product));
+    }
+    catch(e) {
+      print(e.toString());
+    }
+  }
 }
