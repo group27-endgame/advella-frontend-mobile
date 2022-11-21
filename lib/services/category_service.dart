@@ -16,7 +16,7 @@ class CategoryService
       if (response.statusCode == 200) {
         var responseDetails = jsonDecode(response.body);
 
-        print('[SERVICE CATEGORIES] ${responseDetails}');
+        print('[SERVICE CATEGORIES]: ${responseDetails}');
 
         List<ServiceCategory> categories = List<ServiceCategory>.from(responseDetails.map((data) => ServiceCategory.fromJson(data)));
 

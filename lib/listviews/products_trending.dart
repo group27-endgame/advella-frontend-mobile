@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class ProductsTrending extends StatefulWidget {
 
-  var trendingProducts = <Product>[];
+  var trendingProducts = <OldProduct>[];
 
   ProductsTrending(this.trendingProducts);
 

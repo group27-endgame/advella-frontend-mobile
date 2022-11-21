@@ -48,7 +48,7 @@ class _ProductCardState extends State<ProductCard> {
           child: GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              childAspectRatio: 0.70
+              childAspectRatio: 0.60
             ),
             itemCount: widget.products.length,
             itemBuilder: (context, index) {
@@ -78,12 +78,13 @@ class _ProductCardState extends State<ProductCard> {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: AssetImage(
-                                  widget.products[index].image,
+                                  widget.products[index].productId % 2 == 0 ? 'assets/images/closet5.jpg' : 'assets/images/porsche.jpg',
                                 ),
                               ),
                             ),
                           ),
                         Container(
+                          height: 67,
                           margin: const EdgeInsets.only(top: 5, bottom: 5),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,7 +98,7 @@ class _ProductCardState extends State<ProductCard> {
                               ),
 
                               Text(
-                                widget.products[index].price,
+                                '${widget.products[index].moneyAmount} kr',
                                 style: TextStyle(
                                     fontSize: 17,
                                     color: Colors.grey[700],
@@ -105,7 +106,7 @@ class _ProductCardState extends State<ProductCard> {
                                 ),
                               ),
                               Text(
-                                widget.products[index].location,
+                                widget.products[index].pickUpLocation,
                                 style: TextStyle(
                                     fontSize: 10,
                                     color: Colors.grey
@@ -162,7 +163,7 @@ class _ProductCardState extends State<ProductCard> {
                                               ),
                                             ),
                                             Text(
-                                              '${widget.products[index].price}',
+                                              '${widget.products[index].moneyAmount} kr',
                                               style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.bold,
@@ -186,7 +187,7 @@ class _ProductCardState extends State<ProductCard> {
                                               ),
                                             ),
                                             Text(
-                                              '${widget.products[index].location}',
+                                              '${widget.products[index].pickUpLocation}',
                                               style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.bold,
@@ -234,7 +235,27 @@ class _ProductCardState extends State<ProductCard> {
                           ),
                         ),
                         Container(
-                          margin: const EdgeInsets.only(top: 5, bottom: 5),
+                          margin: const EdgeInsets.only(top: 5),
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () => chatDialog(context, widget.products[index]),
+                            child: Text(
+                                'Chat'
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                Colors.pinkAccent,
+                              ),
+                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 5),
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () => bidDialog(context, widget.products[index]),
@@ -263,6 +284,91 @@ class _ProductCardState extends State<ProductCard> {
       ],
     );
   }
+
+  void chatDialog(BuildContext context, Product product) => showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return SimpleDialog(
+        title: const Text('Chat with the poster'),
+        children: <Widget>[
+          SimpleDialogOption(
+            child: Column(
+              children: [
+                CircleAvatar(
+                  backgroundImage: AssetImage('assets/images/nitin1.jpg'),
+                  radius: 60,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                  child: Text(
+                    '${product.userPosted.userEmail}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.star,
+                      size: 25,
+                      color: Colors.yellow,
+                    ),
+                    Icon(
+                      Icons.star,
+                      size: 25,
+                      color: Colors.yellow,
+                    ),
+                    Icon(
+                      Icons.star,
+                      size: 25,
+                      color: Colors.yellow,
+                    ),
+                    Icon(
+                      Icons.star,
+                      size: 25,
+                      color: Colors.yellow,
+                    ),
+                    Icon(
+                      Icons.star,
+                      size: 25,
+                      color: Colors.grey,
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: Text(
+                    '${product.userPosted.description}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: (){},
+                  child: Text(
+                      'Start chatting'
+                  ),
+                  style: ButtonStyle(
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    },
+  );
 
   void categoryDialog(BuildContext context, List<ProductCategory> categories) => showDialog(
     context: context,
@@ -352,7 +458,7 @@ class _ProductCardState extends State<ProductCard> {
             child: Column(
               children: [
                 Text(
-                  'Listed amount: ${product.price}',
+                  'Listed amount: ${product.moneyAmount} kr',
                   style: TextStyle(
                     fontSize: 18,
                   ),

@@ -19,15 +19,11 @@ class ServiceService {
       if (response.statusCode == 200) {
         var responseDetails = jsonDecode(response.body);
 
-        print(responseDetails);
-
         //List<Service> services = responseDetails.map((data) => Service.fromJson(data)).toList();
 
         List<Service> services = [];
 
         for (var s in responseDetails) {
-          print('heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
-          print(s);
 
           if(s['posted'] is int)
             {

@@ -1,4 +1,5 @@
 import 'package:advella/Auth/login_screen.dart';
+import 'package:advella/screens/add_service_screen.dart';
 import 'package:advella/screens/bottom_nav_bar.dart';
 import 'package:advella/screens/browse_screen_map.dart';
 import 'package:advella/screens/filter_screen.dart';
@@ -14,6 +15,7 @@ import 'package:advella/screens/subcategory_screens/pet_sitter_subcategory_scree
 import 'package:advella/screens/task_detail_screen.dart';
 import 'package:advella/services/local_storage/localstorage_user_service.dart';
 import 'package:advella/viewmodels/category_viewmodel.dart';
+import 'package:advella/viewmodels/product_viewmodel.dart';
 import 'package:advella/viewmodels/service_viewmodel.dart';
 import 'package:badges/badges.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -62,7 +64,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (_) => ServiceViewModel()),
         ChangeNotifierProvider(create: (_) => CategoryViewModel()),
-        // ChangeNotifierProvider(create: (_) => VisitViewModel()),
+        ChangeNotifierProvider(create: (_) => ProductViewModel()),
         // ChangeNotifierProvider(create: (_) => DeviationViewModel()),
       ],
       child: MaterialApp(
@@ -102,6 +104,7 @@ class _MyAppState extends State<MyApp> {
           '/filter': (BuildContext context) => new FilterScreen(),
           '/register': (BuildContext context) => new RegisterScreen(),
           '/login': (BuildContext context) => new LoginScreen(),
+          //'/addServiceScreen': (BuildContext context) => new AddServiceScreen(),
         },
       ),
     );

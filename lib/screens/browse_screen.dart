@@ -3,8 +3,11 @@ import 'package:advella/cards/service_card.dart';
 import 'package:advella/models/category.dart';
 import 'package:advella/models/product.dart';
 import 'package:advella/models/service.dart';
+import 'package:advella/models/service_category.dart';
 import 'package:advella/models/task.dart';
+import 'package:advella/screens/add_service_screen.dart';
 import 'package:advella/viewmodels/category_viewmodel.dart';
+import 'package:advella/viewmodels/product_viewmodel.dart';
 import 'package:advella/viewmodels/service_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -211,36 +214,36 @@ class _BrowseScreenState extends State<BrowseScreen>
     Category('Pest control', 'assets/category_icons/spider.png'),
   ];
 
-  List<Product> products = [
-    Product('IKEA closet', '1500 kr.', 'Copenhagen, 1500',
+  List<OldProduct> products = [
+    OldProduct('IKEA closet', '1500 kr.', 'Copenhagen, 1500',
         'assets/images/closet5.jpg'),
-    Product('Original Porsche Macan', '110000 kr.', 'Horsens, 8700',
+    OldProduct('Original Porsche Macan', '110000 kr.', 'Horsens, 8700',
         'assets/images/porsche.jpg'),
-    Product('Iphone 6', '600 kr.', 'Vejen, 6600', 'assets/images/iphone6.jpg'),
-    Product('House for sale', '60000 kr.', 'Lunderskov, 3030',
+    OldProduct('Iphone 6', '600 kr.', 'Vejen, 6600', 'assets/images/iphone6.jpg'),
+    OldProduct('House for sale', '60000 kr.', 'Lunderskov, 3030',
         'assets/images/grass2.jpg'),
-    Product('Bicycle', '250 kr.', 'Horsens, 8700', 'assets/images/bike5.jpg'),
-    Product('Lian li pc', '10500 kr.', 'Kolding, 6800',
+    OldProduct('Bicycle', '250 kr.', 'Horsens, 8700', 'assets/images/bike5.jpg'),
+    OldProduct('Lian li pc', '10500 kr.', 'Kolding, 6800',
         'assets/images/lian-li-pc.jpg'),
-    Product(
+    OldProduct(
         'Rustic cabinet', '65 kr.', 'Vejen, 6600', 'assets/images/cabinet.jpg'),
-    Product('Nike Dunk Low Black/White', '1499 kr.', 'Horsens, 8700',
+    OldProduct('Nike Dunk Low Black/White', '1499 kr.', 'Horsens, 8700',
         'assets/images/nike.jpg'),
-    Product('Study table with adjustable height', '600 kr.', 'Silkeborg, 9800',
+    OldProduct('Study table with adjustable height', '600 kr.', 'Silkeborg, 9800',
         'assets/images/table.jpg'),
-    Product('Iphone 6', '600 kr.', 'Vejen, 6600', 'assets/images/iphone6.jpg'),
-    Product('Iphone 6', '600 kr.', 'Vejen, 6600', 'assets/images/iphone6.jpg'),
-    Product('Iphone 6', '600 kr.', 'Vejen, 6600', 'assets/images/iphone6.jpg'),
-    Product('Iphone 6', '600 kr.', 'Vejen, 6600', 'assets/images/iphone6.jpg'),
-    Product('Iphone 6', '600 kr.', 'Vejen, 6600', 'assets/images/iphone6.jpg')
+    OldProduct('Iphone 6', '600 kr.', 'Vejen, 6600', 'assets/images/iphone6.jpg'),
+    OldProduct('Iphone 6', '600 kr.', 'Vejen, 6600', 'assets/images/iphone6.jpg'),
+    OldProduct('Iphone 6', '600 kr.', 'Vejen, 6600', 'assets/images/iphone6.jpg'),
+    OldProduct('Iphone 6', '600 kr.', 'Vejen, 6600', 'assets/images/iphone6.jpg'),
+    OldProduct('Iphone 6', '600 kr.', 'Vejen, 6600', 'assets/images/iphone6.jpg')
   ];
 
   @override
   Widget build(BuildContext context) {
     TabController _tabController = TabController(length: 3, vsync: this);
 
-    return Consumer2<ServiceViewModel, CategoryViewModel>(
-        builder: (context, serviceViewModel, categoryViewModel, child) {
+    return Consumer3<ServiceViewModel, ProductViewModel, CategoryViewModel>(
+        builder: (context, serviceViewModel, productViewModel, categoryViewModel, child) {
       return Scaffold(
         body: SafeArea(
           child: Container(
@@ -328,6 +331,7 @@ class _BrowseScreenState extends State<BrowseScreen>
 
                       FutureBuilder(
                           future: Future.wait([
+                            productViewModel.getAllProducts(),
                             categoryViewModel.getAllProductCategories()
                           ]),
                           builder:
@@ -340,7 +344,7 @@ class _BrowseScreenState extends State<BrowseScreen>
                                 ),
                               );
                             } else {
-                              return ProductCard(products, categoryViewModel.productCategories);
+                              return ProductCard(productViewModel.products, categoryViewModel.productCategories);
                             }
                           }),
                     ],
@@ -353,13 +357,13 @@ class _BrowseScreenState extends State<BrowseScreen>
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
-          onPressed: () => addPostDialog(context),
+          onPressed: () => addPostDialog(context, categoryViewModel.serviceCategories),
         ),
       );
     });
   }
 
-  void addPostDialog(BuildContext context) => showDialog(
+  void addPostDialog(BuildContext context, List<ServiceCategory> serviceCategories) => showDialog(
         context: context,
         builder: (BuildContext context) {
           return SimpleDialog(
@@ -384,7 +388,10 @@ class _BrowseScreenState extends State<BrowseScreen>
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AddServiceScreen(serviceCategories)),
+                      ),
                       child: Text('Post Service'),
                       style: ButtonStyle(
                         shape:
