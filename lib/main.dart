@@ -13,6 +13,7 @@ import 'package:advella/screens/subcategory_screens/laundry_subcategory_screen.d
 import 'package:advella/screens/subcategory_screens/pet_sitter_subcategory_screen.dart';
 import 'package:advella/screens/task_detail_screen.dart';
 import 'package:advella/services/local_storage/localstorage_user_service.dart';
+import 'package:advella/viewmodels/category_viewmodel.dart';
 import 'package:advella/viewmodels/service_viewmodel.dart';
 import 'package:badges/badges.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -60,7 +61,7 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ServiceViewModel()),
-        // ChangeNotifierProvider(create: (_) => TurbineViewModel()),
+        ChangeNotifierProvider(create: (_) => CategoryViewModel()),
         // ChangeNotifierProvider(create: (_) => VisitViewModel()),
         // ChangeNotifierProvider(create: (_) => DeviationViewModel()),
       ],

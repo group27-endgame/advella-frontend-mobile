@@ -26,7 +26,7 @@ class _BrowseServicesState extends State<BrowseServices> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            padding: const EdgeInsets.only(left: 20),
+            padding: const EdgeInsets.only(left: 20, top: 15),
             child: Text(
               'Trending Services',
               style: TextStyle(

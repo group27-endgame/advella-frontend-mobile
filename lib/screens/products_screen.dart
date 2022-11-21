@@ -32,7 +32,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: ProductCard(products),
+      body: Text('Ya cheeky wanker'),
     );
   }
 }
