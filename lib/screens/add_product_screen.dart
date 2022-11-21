@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:advella/models/product_category.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
+import 'bottom_nav_bar.dart';
 import 'browse_screen.dart';
 
 class AddProductScreen extends StatefulWidget {
@@ -283,10 +285,18 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 width: double.infinity,
                 height: 50,
                 child: ElevatedButton(
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => BrowseScreen()),
-                  ),
+                  onPressed: () async {
+                    await Flushbar(
+                      flushbarPosition: FlushbarPosition.TOP,
+                      title: 'Success',
+                      message: 'Your product listing was posted successfully',
+                      duration: Duration(seconds: 3),
+                    ).show(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BottomNavBar()),
+                    );
+                  },
                   child: Text(
                     'Finish',
                     style: TextStyle(
