@@ -32,10 +32,15 @@ jobs:
           channel: 'stable'
       - run: flutter build apk
       
+      - run: ls -a
+      - run: ls -a build/app
+      - run: ls -a build/app/outputs
+      - run: ls -a build/app/flutter-apk
+      
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v2
         with:
-          file: build\app\outputs\flutter-apk\app-release.apk
+          file: build/app/outputs/flutter-apk/app-release.apk
           asset_name: app-release.apk
           tag: ${{ github.ref }}
           overwrite: true
