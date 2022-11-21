@@ -37,18 +37,18 @@ class ProductViewModel with ChangeNotifier
     }
   }
 
-  Future<void> postProduct() async
-  {
-    loadingStatus = LoadingStatus.Searching;
-    userModel = await _storage.getLoginDetails();
-
-    // Refreshing token
-    // String token = await AuthService().refreshToken(userModel!.access_token, userModel!.refresh_token);
-    // userModel!.access_token = token;
-    await _storage.setLoginDetails(userModel!);
-
-    DeviationModel deviation = DeviationModel(deviationStartDate: startDate, deviationEndDate: endDate, deviationStartTime: startTime, deviationEndTime: endTime, problem: problem, solution: solution, approved: approved, visit: visit);
-
-    await productService.postProduct(userModel!.token, product);
-  }
+  // Future<void> postProduct() async
+  // {
+  //   loadingStatus = LoadingStatus.Searching;
+  //   userModel = await _storage.getLoginDetails();
+  //
+  //   // Refreshing token
+  //   // String token = await AuthService().refreshToken(userModel!.access_token, userModel!.refresh_token);
+  //   // userModel!.access_token = token;
+  //   await _storage.setLoginDetails(userModel!);
+  //
+  //   DeviationModel deviation = DeviationModel(deviationStartDate: startDate, deviationEndDate: endDate, deviationStartTime: startTime, deviationEndTime: endTime, problem: problem, solution: solution, approved: approved, visit: visit);
+  //
+  //   await productService.postProduct(userModel!.token, product);
+  // }
 }
