@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:advella/models/product.dart';
+import 'package:advella/models/product_category.dart';
 import 'package:advella/models/service.dart';
 import 'package:advella/models/user_model.dart';
 import 'package:advella/services/local_storage/localstorage_user_service.dart';
@@ -37,18 +40,40 @@ class ProductViewModel with ChangeNotifier
     }
   }
 
-  // Future<void> postProduct() async
-  // {
-  //   loadingStatus = LoadingStatus.Searching;
-  //   userModel = await _storage.getLoginDetails();
-  //
-  //   // Refreshing token
-  //   // String token = await AuthService().refreshToken(userModel!.access_token, userModel!.refresh_token);
-  //   // userModel!.access_token = token;
-  //   await _storage.setLoginDetails(userModel!);
-  //
-  //   DeviationModel deviation = DeviationModel(deviationStartDate: startDate, deviationEndDate: endDate, deviationStartTime: startTime, deviationEndTime: endTime, problem: problem, solution: solution, approved: approved, visit: visit);
-  //
-  //   await productService.postProduct(userModel!.token, product);
-  // }
+  Future<void> postProduct(String title, String description, int moneyAmount, String location, DateTime date, ProductCategory productCategory, File image) async
+  {
+    loadingStatus = LoadingStatus.Searching;
+    userModel = await _storage.getLoginDetails();
+
+    var user = await _storage.getUser();
+
+    print('[USERRRRRRRRRRRRRRRRRRRRR0]: ${UserModel.toJson(user)}');
+
+    Map<String, dynamic> json = {
+      'title': title,
+      'detail': description,
+      'moneyAmount': moneyAmount,
+      'pickUpLocation': location,
+      'postedDateTime': DateTime
+          .now()
+          .millisecondsSinceEpoch,
+      'deadline': date.millisecondsSinceEpoch,
+      'productStatus': 'Open',
+      'numberOfBids': 0,
+      'productCategory': ProductCategory.toJson(
+          productCategory!),
+      'posted': {
+        'userId': user.userId
+      },
+      //'image': image
+    };
+
+    // Refreshing token
+    // String token = await AuthService().refreshToken(userModel!.access_token, userModel!.refresh_token);
+    // userModel!.access_token = token;
+
+
+
+    await productService.postProduct(userModel!.token, json, image);
+  }
 }

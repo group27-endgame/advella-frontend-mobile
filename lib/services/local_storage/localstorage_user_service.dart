@@ -35,6 +35,8 @@ class UserLocalStorageService
 
     String? userData = await _storage.read(key: "login_details");
 
+    print('[DATAAAAAAAAAAAA]: $userData');
+
     if(userData == null)
       return null;
 
@@ -42,7 +44,7 @@ class UserLocalStorageService
 
     return UserModel(
         userId: userJson['userId'],
-        userEmail: userJson['userEmail'],
+        userEmail: userJson['email'],
         description: userJson['description'],
         token: userJson['token']
     );

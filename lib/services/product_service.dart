@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:advella/models/product.dart';
 import 'package:advella/models/product_category.dart';
 import 'package:advella/models/user_model.dart';
+import 'package:dio/dio.dart' as dio;
 import 'package:http/http.dart';
+import 'package:http_parser/http_parser.dart';
 
 class ProductService
 {
@@ -17,15 +20,15 @@ class ProductService
       if (response.statusCode == 200) {
         var responseDetails = jsonDecode(response.body);
 
-        print('[PRODUCTS]: $responseDetails');
+        //print('[PRODUCTS]: $responseDetails');
 
         //List<Service> services = responseDetails.map((data) => Service.fromJson(data)).toList();
 
         List<Product> products = [];
 
         for (var p in responseDetails) {
-          print('ppppppppppppppppppppppppppppppppppppppppp');
-          print(p);
+          // print('ppppppppppppppppppppppppppppppppppppppppp');
+          // print(p);
 
           if(p['posted'] is int)
           {
@@ -48,11 +51,13 @@ class ProductService
               //serviceImages: s['serviceImages'].map((data) => ServiceImage.fromJson(data)).toList()
             );
 
+            //print(product.productId);
+
             products.add(product);
           }
         }
 
-        print('product length');
+        //print('product length');
         print(products.length);
 
         return products;
@@ -66,15 +71,23 @@ class ProductService
     return null;
   }
 
-  Future postProduct(String? token, Product product) async
+  Future postProduct(String? token, var product, File image) async
   {
-    try {
-      await post(Uri.parse(url), headers: {
-        "Authorization": "Bearer $token", "Content-Type": "application/json"
-      }, body: Product.toJson(product));
-    }
-    catch(e) {
-      print(e.toString());
-    }
+    print('[FUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK] ${jsonEncode(product)}');
+    var formData = dio.FormData.fromMap({
+      'newProduct': await dio.MultipartFile.fromString(jsonEncode(product), contentType: MediaType.parse("application/json")),
+      'image': await dio.MultipartFile.fromFile(image.path, filename: image.path.split("/").last)
+    });
+
+    var response = await dio.Dio().post('$url/new', data: formData, options: dio.Options(headers:{"Authorization": "Bearer $token", "Content-Type": "multipart/form-data"}));
+    //print(response.statusCode);
+    // try {
+    //   await post(Uri.parse(url), headers: {
+    //     "Authorization": "Bearer $token", "Content-Type": "application/json"
+    //   }, body: product);//Product.toJson(product));
+    // }
+    // catch(e) {
+    //   print(e.toString());
+    // }
   }
 }

@@ -1,13 +1,16 @@
 import 'dart:io';
 
 import 'package:advella/models/product_category.dart';
+import 'package:advella/viewmodels/product_viewmodel.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
+import '../services/local_storage/localstorage_user_service.dart';
 import 'bottom_nav_bar.dart';
 import 'browse_screen.dart';
 
@@ -26,10 +29,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
   String _title = '', _description='', _location='', _category='';
   int _duration = 0, _moneyAmount = 0;
 
+  ProductCategory? _productCategory;
+
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
 
   File? image;
+
+  final _storage = new UserLocalStorageService();
 
   Future pickImage() async
   {
@@ -46,6 +53,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return Consumer<ProductViewModel>(
+      builder: (context, viewmodel, child) {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -86,7 +95,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 margin: const EdgeInsets.only(left: 10, right: 10),
                 child: TextFormField(
                   obscureText: false,
-                  onChanged: (title){
+                  onChanged: (title) {
                     setState(() {
                       _title = title;
                     });
@@ -101,9 +110,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
                 child: TextFormField(
                   obscureText: false,
-                  onChanged: (title){
+                  onChanged: (description) {
                     setState(() {
-                      _title = title;
+                      _description = description;
                     });
                   },
                   decoration: InputDecoration(
@@ -116,10 +125,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 children: [
                   Expanded(
                     child: Container(
-                      margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
+                      margin: const EdgeInsets.only(
+                          left: 10, right: 10, top: 20),
                       child: TextFormField(
                         obscureText: false,
-                        onChanged: (moneyAmount){
+                        onChanged: (moneyAmount) {
                           setState(() {
                             _moneyAmount = moneyAmount as int;
                           });
@@ -133,7 +143,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   ),
                   Expanded(
                     child: Container(
-                      margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
+                      margin: const EdgeInsets.only(
+                          left: 10, right: 10, top: 20),
                       child: Text(
                         'do pice',
                         style: TextStyle(
@@ -160,7 +171,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
                 child: TextFormField(
                   obscureText: false,
-                  onChanged: (location){
+                  onChanged: (location) {
                     setState(() {
                       _location = location;
                     });
@@ -193,11 +204,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           lastDate: DateTime(2024),
                         );
 
-                        if(newStartDate == null) return;
+                        if (newStartDate == null) return;
 
                         setState(() {
                           startDate = newStartDate;
-
                         });
                         print(startDate);
                       },
@@ -221,7 +231,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     new Spacer(),
                     Container(
                       child: ElevatedButton(
-                        onPressed: () => categoryDialog(context, widget.categories),
+                        onPressed: () =>
+                            categoryDialog(context, widget.categories),
                         child: Text(
                           'Category',
                           style: TextStyle(
@@ -286,6 +297,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () async {
+                    await viewmodel.postProduct(_title, _description, _moneyAmount, _location, startDate, _productCategory!, image!);
+
                     await Flushbar(
                       flushbarPosition: FlushbarPosition.TOP,
                       title: 'Success',
@@ -318,6 +331,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         ),
       ),
     );
+  });
   }
 
   void categoryDialog(BuildContext context, List<ProductCategory> categories) => showDialog(
@@ -338,6 +352,11 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     diameterRatio: 1.0,
                     useMagnifier: true,
                     magnification: 1.5,
+                    onSelectedItemChanged: (index) {
+                      setState(() {
+                        _productCategory = categories[index];
+                      });
+                    },
                     childDelegate: ListWheelChildBuilderDelegate(
                         childCount: categories.length,
                         builder: (BuildContext context, int index) {
@@ -372,7 +391,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: (){},
+                  onPressed: () {
+                    print(_productCategory?.title);
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(

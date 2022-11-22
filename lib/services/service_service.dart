@@ -19,6 +19,8 @@ class ServiceService {
       if (response.statusCode == 200) {
         var responseDetails = jsonDecode(response.body);
 
+        //print('[SERVICE]: $responseDetails');
+
         //List<Service> services = responseDetails.map((data) => Service.fromJson(data)).toList();
 
         List<Service> services = [];
@@ -47,11 +49,13 @@ class ServiceService {
               //serviceImages: s['serviceImages'].map((data) => ServiceImage.fromJson(data)).toList()
             );
 
+            //print(service.serviceId);
+
             services.add(service);
           }
         }
 
-        print('service length');
+        //print('service length');
         print(services.length);
 
         return services;

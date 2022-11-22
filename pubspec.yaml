@@ -46,6 +46,8 @@ dependencies:
   flip_card: ^0.6.0
   image_picker: ^0.8.6
   another_flushbar: ^1.12.29
+  dio: ^4.0.6
+  http_parser: ^4.0.2
 
 dev_dependencies:
   flutter_test:
