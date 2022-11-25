@@ -128,6 +128,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       margin: const EdgeInsets.only(
                           left: 10, right: 10, top: 20),
                       child: TextFormField(
+                        keyboardType: TextInputType.number,
                         obscureText: false,
                         onChanged: (moneyAmount) {
                           setState(() {

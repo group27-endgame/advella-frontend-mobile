@@ -17,7 +17,7 @@ class Service {
   final String serviceStatus;
   final ServiceCategory serviceCategory;
   final UserModel userPosted;
-  //final List<ServiceImage> serviceImages;
+  ServiceImage? serviceImages;
 
   Service({
     required this.serviceId,
@@ -32,7 +32,7 @@ class Service {
     required this.serviceStatus,
     required this.serviceCategory,
     required this.userPosted,
-    //required this.serviceImages
+    this.serviceImages
   });
 
   static Service fromJson(json) {

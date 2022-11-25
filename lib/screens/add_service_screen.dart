@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:advella/models/service_category.dart';
 import 'package:advella/screens/bottom_nav_bar.dart';
 import 'package:advella/screens/browse_screen.dart';
+import 'package:advella/viewmodels/service_viewmodel.dart';
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class AddServiceScreen extends StatefulWidget {
   
@@ -24,6 +26,8 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
 
   String _title = '', _description='', _location='', _category='';
   int _duration = 0, _moneyAmount = 0;
+
+  ServiceCategory? _serviceCategory;
 
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now();
@@ -45,6 +49,8 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return Consumer<ServiceViewModel>(
+        builder: (context, viewmodel, child) {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -100,9 +106,9 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                 margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
                 child: TextFormField(
                   obscureText: false,
-                  onChanged: (title){
+                  onChanged: (description){
                     setState(() {
-                      _title = title;
+                      _description = description;
                     });
                   },
                   decoration: InputDecoration(
@@ -117,10 +123,14 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                     child: Container(
                       margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
                       child: TextFormField(
+                        keyboardType: TextInputType.number,
                         obscureText: false,
                         onChanged: (moneyAmount){
+                          print('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii ${moneyAmount}');
+                          print('ppppppppppppppppppppppppppp ${moneyAmount as int}');
                           setState(() {
-                            _moneyAmount = moneyAmount as int;
+                            _moneyAmount = int.parse(moneyAmount);
+
                           });
                         },
                         decoration: InputDecoration(
@@ -134,6 +144,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                     child: Container(
                       margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
                       child: TextFormField(
+                        keyboardType: TextInputType.number,
                         obscureText: false,
                         onChanged: (duration){
                           setState(() {
@@ -279,6 +290,9 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () async {
+
+                    await viewmodel.postService(_title, _description, _moneyAmount, _duration, _location, startDate, _serviceCategory!, image!);
+
                     await Flushbar(
                       flushbarPosition: FlushbarPosition.TOP,
                       title: 'Success',
@@ -311,6 +325,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
         ),
       ),
     );
+  });
   }
 
   void categoryDialog(BuildContext context, List<ServiceCategory> categories) => showDialog(
@@ -331,6 +346,11 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                     diameterRatio: 1.0,
                     useMagnifier: true,
                     magnification: 1.5,
+                    onSelectedItemChanged: (index) {
+                      setState(() {
+                        _serviceCategory = categories[index];
+                      });
+                    },
                     childDelegate: ListWheelChildBuilderDelegate(
                         childCount: categories.length,
                         builder: (BuildContext context, int index) {
@@ -365,7 +385,9 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    print(_serviceCategory?.title);
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(

@@ -1,4 +1,5 @@
 import 'package:advella/models/product_category.dart';
+import 'package:advella/models/product_image.dart';
 import 'package:advella/models/user_model.dart';
 
 class Product
@@ -14,7 +15,7 @@ class Product
   final int numberOfBids;
   final ProductCategory productCategory;
   final UserModel userPosted;
-//final List<ProductImage> productImages;
+  ProductImage? productImage;
 
   Product({
     required this.productId,
@@ -28,7 +29,7 @@ class Product
     required this.numberOfBids,
     required this.productCategory,
     required this.userPosted,
-    //required this.serviceImages
+    this.productImage
   });
 
   static Product fromJson(json) {

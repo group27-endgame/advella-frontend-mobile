@@ -20,6 +20,8 @@ class _ServicesCardState extends State<ServicesCard> {
   int likeColorIncrement = 0;
   bool likeColorBlue = false;
 
+  String url = 'https://api.advella.popal.dev/content';
+
   String selectedItem = 'Technology';
 
   var bidScrollAmountList = new List<int>.generate(1000, (i) => i + 1);
@@ -212,9 +214,11 @@ class _ServicesCardState extends State<ServicesCard> {
                               ),
                             ),
                           ),
+                          widget.services[index].serviceImages == null ?
                           Image.asset(
                            widget.services[index].serviceId % 2 == 0 ? "assets/images/phone_repair.jpg" : "assets/images/grass2.jpg",
-                          ),
+                          ) : 
+                          Image.network('$url${widget.services[index].serviceImages!.path}'),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(0, 10, 10, 0),
                             child: Row(

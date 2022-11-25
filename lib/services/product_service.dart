@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:advella/models/product.dart';
 import 'package:advella/models/product_category.dart';
+import 'package:advella/models/product_image.dart';
 import 'package:advella/models/user_model.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:http/http.dart';
@@ -52,6 +53,8 @@ class ProductService
             );
 
             //print(product.productId);
+
+            if(p['productImages'].length > 0) product.productImage = ProductImage.fromJson(p['productImages'][0]);
 
             products.add(product);
           }

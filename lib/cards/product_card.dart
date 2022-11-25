@@ -18,6 +18,8 @@ class ProductCard extends StatefulWidget {
 
 class _ProductCardState extends State<ProductCard> {
 
+  String url = 'https://api.advella.popal.dev/content';
+
   var bidScrollAmountList = new List<int>.generate(1000, (i) => i + 1);
 
   @override
@@ -77,9 +79,12 @@ class _ProductCardState extends State<ProductCard> {
                               //color: Colors.white,
                               image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: AssetImage(
+                                image: widget.products[index].productImage == null ?
+                                AssetImage(
                                   widget.products[index].productId % 2 == 0 ? 'assets/images/closet5.jpg' : 'assets/images/porsche.jpg',
-                                ),
+                                ) :
+                                NetworkImage('$url${widget.products[index].productImage!.path}') as ImageProvider,
+
                               ),
                             ),
                           ),
