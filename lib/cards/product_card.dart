@@ -1,6 +1,7 @@
 import 'package:advella/models/product.dart';
 import 'package:advella/models/product_category.dart';
 import 'package:advella/models/service_category.dart';
+import 'package:advella/viewmodels/product_viewmodel.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -19,6 +20,10 @@ class ProductCard extends StatefulWidget {
 class _ProductCardState extends State<ProductCard> {
 
   String url = 'https://api.advella.popal.dev/content';
+
+  int? _moneyAmount;
+
+  final productViewModel = ProductViewModel();
 
   var bidScrollAmountList = new List<int>.generate(1000, (i) => i + 1);
 
@@ -427,7 +432,9 @@ class _ProductCardState extends State<ProductCard> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    Navigator.of(context).pop();
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -468,51 +475,25 @@ class _ProductCardState extends State<ProductCard> {
                     fontSize: 18,
                   ),
                 ),
-                Container(
-                  height: 375,
-                  width: double.infinity,
-                  child: ListWheelScrollView.useDelegate(
-                    itemExtent: 60,
-                    physics: FixedExtentScrollPhysics(),
-                    diameterRatio: 1.0,
-                    useMagnifier: true,
-                    magnification: 1.5,
-                    childDelegate: ListWheelChildBuilderDelegate(
-                        childCount: bidScrollAmountList.length,
-                        builder: (BuildContext context, int index) {
-                          if (bidScrollAmountList.isEmpty) {
-                            return Container(
-                              child: Center(
-                                child: Text('No money amount exist'),
-                              ),
-                            );
-                          }
-                          else
-                          {
-                            return Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: Colors.blue[50],
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 13, bottom: 5),
-                                child: Text(
-                                  '${bidScrollAmountList[index]} kr',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 30,
-                                  ),
-                                ),
-                              ),
-                            );
-                          }
-                        }
-                    ),
+                TextFormField(
+                  keyboardType: TextInputType.number,
+                  obscureText: false,
+                  onChanged: (moneyAmount){
+                    setState(() {
+                      _moneyAmount = int.parse(moneyAmount);
+
+                    });
+                  },
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "Price in DKK"
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: (){},
+                  onPressed: () async {
+                    await productViewModel.bidProduct(product.productId, _moneyAmount!);
+                    Navigator.of(context).pop();
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(

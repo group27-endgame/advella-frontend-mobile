@@ -76,4 +76,14 @@ class ProductViewModel with ChangeNotifier
 
     await productService.postProduct(userModel!.token, json, image);
   }
+
+  Future<void> bidProduct(int productId, int moneyAmount) async
+  {
+    loadingStatus = LoadingStatus.Searching;
+    userModel = await _storage.getLoginDetails();
+
+    var user = await _storage.getUser();
+
+    await productService.bidProduct(userModel!.token, productId, moneyAmount);
+  }
 }

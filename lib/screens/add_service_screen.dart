@@ -25,7 +25,8 @@ class AddServiceScreen extends StatefulWidget {
 class _AddServiceScreenState extends State<AddServiceScreen> {
 
   String _title = '', _description='', _location='', _category='';
-  int _duration = 0, _moneyAmount = 0;
+  int? _duration;
+  int? _moneyAmount;
 
   ServiceCategory? _serviceCategory;
 
@@ -126,8 +127,8 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                         keyboardType: TextInputType.number,
                         obscureText: false,
                         onChanged: (moneyAmount){
-                          print('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii ${moneyAmount}');
-                          print('ppppppppppppppppppppppppppp ${moneyAmount as int}');
+                          // print('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii ${moneyAmount}');
+                          // print('ppppppppppppppppppppppppppp ${moneyAmount as int}');
                           setState(() {
                             _moneyAmount = int.parse(moneyAmount);
 
@@ -148,7 +149,8 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                         obscureText: false,
                         onChanged: (duration){
                           setState(() {
-                            _duration = duration as int;
+                            _duration = int.parse(duration);
+
                           });
                         },
                         decoration: InputDecoration(
@@ -291,7 +293,8 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                 child: ElevatedButton(
                   onPressed: () async {
 
-                    await viewmodel.postService(_title, _description, _moneyAmount, _duration, _location, startDate, _serviceCategory!, image!);
+                    print('llllllllllllllllllllllllllll ${_moneyAmount}');
+                    await viewmodel.postService(_title, _description, _moneyAmount!, _duration!, _location, startDate, _serviceCategory!, image!);
 
                     await Flushbar(
                       flushbarPosition: FlushbarPosition.TOP,
@@ -387,6 +390,7 @@ class _AddServiceScreenState extends State<AddServiceScreen> {
                 ElevatedButton(
                   onPressed: (){
                     print(_serviceCategory?.title);
+                    Navigator.of(context).pop();
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

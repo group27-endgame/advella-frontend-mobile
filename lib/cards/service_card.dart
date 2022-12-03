@@ -1,5 +1,6 @@
 import 'package:advella/models/service.dart';
 import 'package:advella/models/service_category.dart';
+import 'package:advella/viewmodels/service_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -19,6 +20,9 @@ class _ServicesCardState extends State<ServicesCard> {
 
   int likeColorIncrement = 0;
   bool likeColorBlue = false;
+
+  int? _moneyAmount;
+  final serviceViewModel = ServiceViewModel();
 
   String url = 'https://api.advella.popal.dev/content';
 
@@ -396,7 +400,9 @@ class _ServicesCardState extends State<ServicesCard> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    Navigator.of(context).pop();
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -438,50 +444,30 @@ class _ServicesCardState extends State<ServicesCard> {
                   ),
                 ),
                 Container(
-                  height: 375,
-                  width: double.infinity,
-                  child: ListWheelScrollView.useDelegate(
-                    itemExtent: 60,
-                    physics: FixedExtentScrollPhysics(),
-                    diameterRatio: 1.0,
-                    useMagnifier: true,
-                    magnification: 1.5,
-                    childDelegate: ListWheelChildBuilderDelegate(
-                      childCount: bidScrollAmountList.length,
-                      builder: (BuildContext context, int index) {
-                        if (bidScrollAmountList.isEmpty) {
-                          return Container(
-                            child: Center(
-                              child: Text('No money amount exist'),
-                            ),
-                          );
-                        }
-                        else
-                        {
-                          return Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Colors.blue[50],
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 13, bottom: 5),
-                              child: Text(
-                                '${bidScrollAmountList[index]} kr',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 30,
-                                ),
-                              ),
-                            ),
-                          );
-                        }
-                      }
+                  margin: const EdgeInsets.only(left: 10, right: 10, top: 20),
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    obscureText: false,
+                    onChanged: (moneyAmount){
+                      setState(() {
+                        _moneyAmount = int.parse(moneyAmount);
+
+                      });
+                    },
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: "Price in DKK"
                     ),
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: (){},
+                  onPressed: () async {
+                    print('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii ${_moneyAmount}');
+
+                    await serviceViewModel?.bidService(service.serviceId, _moneyAmount!);
+
+                    Navigator.of(context).pop();
+                  },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -506,6 +492,91 @@ class _ServicesCardState extends State<ServicesCard> {
       );
     },
   );
+
+  // void bidDialog(BuildContext context, Service service) => showDialog(
+  //   context: context,
+  //   builder: (BuildContext context) {
+  //     return SimpleDialog(
+  //       title: const Text('Bid the amount'),
+  //       children: <Widget>[
+  //         SimpleDialogOption(
+  //           child: Column(
+  //             children: [
+  //               Text(
+  //                 'Listed amount: ${service.moneyAmount} kr',
+  //                 style: TextStyle(
+  //                   fontSize: 18,
+  //                 ),
+  //               ),
+  //               Container(
+  //                 height: 375,
+  //                 width: double.infinity,
+  //                 child: ListWheelScrollView.useDelegate(
+  //                   itemExtent: 60,
+  //                   physics: FixedExtentScrollPhysics(),
+  //                   diameterRatio: 1.0,
+  //                   useMagnifier: true,
+  //                   magnification: 1.5,
+  //                   childDelegate: ListWheelChildBuilderDelegate(
+  //                     childCount: bidScrollAmountList.length,
+  //                     builder: (BuildContext context, int index) {
+  //                       if (bidScrollAmountList.isEmpty) {
+  //                         return Container(
+  //                           child: Center(
+  //                             child: Text('No money amount exist'),
+  //                           ),
+  //                         );
+  //                       }
+  //                       else
+  //                       {
+  //                         return Container(
+  //                           width: double.infinity,
+  //                           decoration: BoxDecoration(
+  //                             color: Colors.blue[50],
+  //                             borderRadius: BorderRadius.circular(10),
+  //                           ),
+  //                           child: Padding(
+  //                             padding: const EdgeInsets.only(top: 13, bottom: 5),
+  //                             child: Text(
+  //                               '${bidScrollAmountList[index]} kr',
+  //                               textAlign: TextAlign.center,
+  //                               style: TextStyle(
+  //                                 fontSize: 30,
+  //                               ),
+  //                             ),
+  //                           ),
+  //                         );
+  //                       }
+  //                     }
+  //                   ),
+  //                 ),
+  //               ),
+  //               ElevatedButton(
+  //                 onPressed: (){},
+  //                 child: Padding(
+  //                   padding: const EdgeInsets.all(8.0),
+  //                   child: Text(
+  //                     'Bid',
+  //                     style: TextStyle(
+  //                       fontSize: 18,
+  //                     ),
+  //                   ),
+  //                 ),
+  //                 style: ButtonStyle(
+  //                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+  //                     RoundedRectangleBorder(
+  //                       borderRadius: BorderRadius.circular(10),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       ],
+  //     );
+  //   },
+  // );
 
 
   void chatDialog(BuildContext context, Service service) => showDialog(

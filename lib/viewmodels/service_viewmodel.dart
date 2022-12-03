@@ -75,4 +75,14 @@ class ServiceViewModel with ChangeNotifier
 
     await service.postService(userModel!.token, json, image);
   }
+
+  Future<void> bidService(int serviceId, int moneyAmount) async
+  {
+    loadingStatus = LoadingStatus.Searching;
+    userModel = await _storage.getLoginDetails();
+
+    var user = await _storage.getUser();
+
+    await service.bidService(userModel!.token, serviceId, moneyAmount);
+  }
 }

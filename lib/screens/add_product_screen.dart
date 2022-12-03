@@ -27,7 +27,7 @@ class AddProductScreen extends StatefulWidget {
 class _AddProductScreenState extends State<AddProductScreen> {
 
   String _title = '', _description='', _location='', _category='';
-  int _duration = 0, _moneyAmount = 0;
+  int? _moneyAmount;
 
   ProductCategory? _productCategory;
 
@@ -130,9 +130,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       child: TextFormField(
                         keyboardType: TextInputType.number,
                         obscureText: false,
-                        onChanged: (moneyAmount) {
+                        onChanged: (moneyAmount){
                           setState(() {
-                            _moneyAmount = moneyAmount as int;
+                            _moneyAmount = int.parse(moneyAmount);
+
                           });
                         },
                         decoration: InputDecoration(
@@ -298,7 +299,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () async {
-                    await viewmodel.postProduct(_title, _description, _moneyAmount, _location, startDate, _productCategory!, image!);
+                    await viewmodel.postProduct(_title, _description, _moneyAmount!, _location, startDate, _productCategory!, image!);
 
                     await Flushbar(
                       flushbarPosition: FlushbarPosition.TOP,
@@ -394,6 +395,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 ElevatedButton(
                   onPressed: () {
                     print(_productCategory?.title);
+                    Navigator.of(context).pop();
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

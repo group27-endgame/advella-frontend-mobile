@@ -94,4 +94,18 @@ class ServiceService {
     //   print(e.toString());
     // }
   }
+  
+  Future bidService(String? access_token, int serviceId, int moneyAmount) async
+  {
+    try {
+      await post(Uri.parse(
+          "https://api.advella.popal.dev/api/users/bid/service/$serviceId?amount=$moneyAmount"),
+          headers: {
+            "Authorization": "Bearer $access_token",
+            "Content-Type": "application/json"
+          });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }
