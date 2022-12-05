@@ -202,6 +202,41 @@ class ServiceService {
     return null;
   }
 
+  Future<List<UserModel>?> getAllBiddersService(int serviceId) async
+  {
+    try {
+      var response = await get(Uri.parse("$url/bidders/$serviceId"));
+
+      if (response.statusCode == 200) {
+        var responseDetails = jsonDecode(response.body);
+
+        //print('[SERVICE]: $responseDetails');
+
+        //List<Service> services = responseDetails.map((data) => Service.fromJson(data)).toList();
+
+        List<UserModel> users = [];
+
+        for (var u in responseDetails) {
+            UserModel user = UserModel(userId: u["userId"], userEmail: u["email"], userName: u["username"], description: u["description"]);
+
+            users.add(user);
+
+        }
+
+        //print('service length');
+        print(users.length);
+
+        return users;
+      }
+      else {
+        throw Exception('Response failed');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return null;
+  }
+
   // Future<UserModel?> getByServiceId(int serviceId) async {
   //   try {
   //     var response = await get(Uri.parse("$url/$serviceId"));

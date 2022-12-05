@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../models/service.dart';
 import '../models/service_category.dart';
+import '../models/user_model.dart';
 import '../screens/bottom_nav_bar.dart';
 import '../viewmodels/service_viewmodel.dart';
 
@@ -317,8 +318,9 @@ class _YourPostsServiceCardState extends State<YourPostsServiceCard> {
                                   ),
                                 ),
                                 ElevatedButton(
-                                  onPressed: (){
-                                    statusDialog(context, widget.services[index]);
+                                  onPressed: () async {
+                                    await serviceViewModel.getAllBiddersService(widget.services[index].serviceId);
+                                    seeAllBiddersDialog(context, serviceViewModel.bidders);
                                   },
                                   child: Text(
                                     'See all bidders',
@@ -363,20 +365,20 @@ class _YourPostsServiceCardState extends State<YourPostsServiceCard> {
     );
   }
 
-  void seeAllBiddersDialog(BuildContext context, Service service) => showDialog(
+  void seeAllBiddersDialog(BuildContext context, List<UserModel> bidders) => showDialog(
     context: context,
     builder: (BuildContext context) {
       return SimpleDialog(
-        title: const Text('Delete service'),
+        title: const Text('All bidders'),
         children: <Widget>[
           SimpleDialogOption(
             child: ListView.separated(
               shrinkWrap: true,
-              itemCount: widget.services.length,
+              itemCount: bidders.length,
               scrollDirection: Axis.vertical,
               separatorBuilder: (BuildContext context, int index) => Divider(thickness: 10,),
               itemBuilder: (context, index) {
-                if(widget.services.length == 0) {
+                if(bidders.length == 0) {
                   return Container(
                     child: Center(
                       child: Text('No posts exist'),
@@ -385,6 +387,46 @@ class _YourPostsServiceCardState extends State<YourPostsServiceCard> {
                 }
                 else {
                   return Column(
+                    children: [
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${bidders[index].userName}',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                '${bidders[index].userEmail}',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.grey
+                                ),
+                              ),
+                            ],
+                          ),
+                          new Spacer(),
+                          ElevatedButton(
+                            onPressed: (){},
+                            child: Text(
+                                'Chat'
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(Colors.pink),
+                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   );
                 }
               },

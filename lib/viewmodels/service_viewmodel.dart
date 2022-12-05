@@ -18,6 +18,8 @@ class ServiceViewModel with ChangeNotifier
   var services = <Service>[];
   var servicesPostedByUser = <Service>[];
 
+  var bidders = <UserModel>[];
+
   UserModel? highestBidder;
   int? amount;
 
@@ -149,6 +151,25 @@ class ServiceViewModel with ChangeNotifier
 
 
     if (this.highestBidder == null) {
+      loadingStatus = LoadingStatus.Empty;
+    }
+
+    else {
+      loadingStatus = LoadingStatus.Completed;
+    }
+  }
+
+  Future<void> getAllBiddersService(int serviceId) async
+  {
+    loadingStatus = LoadingStatus.Searching;
+
+    // Refreshing token
+    // String token = await AuthService().refreshToken(userModel!.access_token, userModel!.refresh_token);
+    // userModel!.access_token = token;
+
+    this.bidders = (await service.getAllBiddersService(serviceId))!;
+
+    if (this.bidders.isEmpty) {
       loadingStatus = LoadingStatus.Empty;
     }
 
