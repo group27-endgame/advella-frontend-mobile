@@ -26,6 +26,9 @@ class _YourPostsServiceCardState extends State<YourPostsServiceCard> {
   int? _moneyAmount;
   final serviceViewModel = ServiceViewModel();
 
+  String? userName;
+  int? userId, amount;
+
   String url = 'https://api.advella.popal.dev/content';
 
   String selectedItem = 'Technology';
@@ -193,29 +196,34 @@ class _YourPostsServiceCardState extends State<YourPostsServiceCard> {
                             ),
                           ),
 
-                          GestureDetector(
-                            onTap: () async {
+                          FlipCard(
+                            onFlip: () async {
+
                               await serviceViewModel.getHighestBidder(widget.services[index].serviceId);
+                              setState(() {
+                                userName = serviceViewModel.highestBidder?.userName;
+                                userId = serviceViewModel.highestBidder?.userId;
+                               amount = serviceViewModel.amount;
+                              });
+                              // await serviceViewModel.getHighestBidder(136);
                             },
-                            child: FlipCard(
-                              direction: FlipDirection.VERTICAL,
-                              front: widget.services[index].serviceImages == null ? Image.asset(
-                                widget.services[index].serviceId % 2 == 0 ? "assets/images/phone_repair.jpg" : "assets/images/grass2.jpg",
-                              ) : Image.network('$url${widget.services[index].serviceImages!.path}'),
-                              back: Container(
-                                child: Column(
-                                  children: [
-                                    Text(
-                                        '${serviceViewModel.highestBidder?.userEmail}'
-                                    ),
-                                    Text(
-                                        'uwefowubfwribfwri'
-                                    ),
-                                    Text(
-                                        'uwefowubfwribfwri'
-                                    ),
-                                  ],
-                                ),
+                            direction: FlipDirection.VERTICAL,
+                            front: widget.services[index].serviceImages == null ? Image.asset(
+                              widget.services[index].serviceId % 2 == 0 ? "assets/images/phone_repair.jpg" : "assets/images/grass2.jpg",
+                            ) : Image.network('$url${widget.services[index].serviceImages!.path}'),
+                            back: Container(
+                              child: Column(
+                                children: [
+                                  Text(
+                                      '${userName} $amount'
+                                  ),
+                                  Text(
+                                      'uwefowubfwribfwri'
+                                  ),
+                                  Text(
+                                      'uwefowubfwribfwri'
+                                  ),
+                                ],
                               ),
                             ),
                           ),
@@ -258,6 +266,21 @@ class _YourPostsServiceCardState extends State<YourPostsServiceCard> {
                                     elevation: MaterialStateProperty.all(0),
                                   ),
                                 ),
+                                ElevatedButton(
+                                  onPressed: (){
+                                    statusDialog(context, widget.services[index]);
+                                  },
+                                  child: Text(
+                                    'See all bidders',
+                                    style: TextStyle(
+                                        color: Colors.blue
+                                    ),
+                                  ),
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                                    elevation: MaterialStateProperty.all(0),
+                                  ),
+                                ),
 
                                 ElevatedButton(
                                   onPressed: (){
@@ -289,6 +312,38 @@ class _YourPostsServiceCardState extends State<YourPostsServiceCard> {
       ],
     );
   }
+
+  void seeAllBiddersDialog(BuildContext context, Service service) => showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return SimpleDialog(
+        title: const Text('Delete service'),
+        children: <Widget>[
+          SimpleDialogOption(
+            child: ListView.separated(
+              shrinkWrap: true,
+              itemCount: widget.services.length,
+              scrollDirection: Axis.vertical,
+              separatorBuilder: (BuildContext context, int index) => Divider(thickness: 10,),
+              itemBuilder: (context, index) {
+                if(widget.services.length == 0) {
+                  return Container(
+                    child: Center(
+                      child: Text('No posts exist'),
+                    ),
+                  );
+                }
+                else {
+                  return Column(
+                  );
+                }
+              },
+            ),
+          ),
+        ],
+      );
+    },
+  );
 
   void deleteDialog(BuildContext context, Service service) => showDialog(
     context: context,

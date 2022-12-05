@@ -19,6 +19,7 @@ class ServiceViewModel with ChangeNotifier
   var servicesPostedByUser = <Service>[];
 
   UserModel? highestBidder;
+  int? amount;
 
   final _storage = new UserLocalStorageService();
 
@@ -134,13 +135,18 @@ class ServiceViewModel with ChangeNotifier
 
   Future<void> getHighestBidder(int serviceId) async
   {
+    print("222222222222222222222222");
     loadingStatus = LoadingStatus.Searching;
 
     // Refreshing token
     // String token = await AuthService().refreshToken(userModel!.access_token, userModel!.refresh_token);
     // userModel!.access_token = token;
 
-    this.highestBidder = await service.getHighestBidder(serviceId);
+    // this.highestBidder = await service.getHighestBidder(serviceId);
+
+    this.highestBidder = (await service.getHighestBidder(serviceId))!["user"] as UserModel?;
+    this.amount = (await service.getHighestBidder(serviceId))!["amount"] as int?;
+
 
     if (this.highestBidder == null) {
       loadingStatus = LoadingStatus.Empty;

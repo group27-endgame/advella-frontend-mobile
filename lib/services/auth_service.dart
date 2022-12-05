@@ -32,6 +32,7 @@ class AuthService
       UserModel user = UserModel(
           userId: userDetails['userId'],
           userEmail: userDetails['email'],
+          userName: userDetails['username'],
           description: userDetails['description'],
           token: tokens['token']
       );

@@ -45,6 +45,7 @@ class UserLocalStorageService
     return UserModel(
         userId: userJson['userId'],
         userEmail: userJson['email'],
+        userName: userJson['username'],
         description: userJson['description'],
         token: userJson['token']
     );

@@ -170,16 +170,53 @@ class ServiceService {
     }
   }
 
-  Future<UserModel?> getHighestBidder(int serviceId) async {
+  Future<Map<String, Object>?> getHighestBidder(int serviceId) async {
     try {
       var response = await get(Uri.parse("$url/bidders/highest/$serviceId"));
+      var responseDetails = jsonDecode(response.body);
 
-      return UserModel.fromJson(response);
+      print("xxxxxxxxxxxxxxxxxxxxxxxxxx ${responseDetails}");
+
+      //UserModel userModel = new UserModel(userId: int.parse(response.body['userId']), userEmail: response.body['userEmail'], description: response.body['description']);
+
+      int amount = 0;
+
+      for(var r in responseDetails["bidServices"])
+        {
+          if(r["id"]["service"] == serviceId)
+            {
+              amount = r["amount"];
+            }
+        }
+
+      Map<String, Object> map = {
+        "user": UserModel.fromJson(responseDetails),
+        "amount": amount
+      };
+
+      return map;
+      // return UserModel.fromJson(responseDetails);
     } catch (e) {
       print(e.toString());
     }
     return null;
   }
+
+  // Future<UserModel?> getByServiceId(int serviceId) async {
+  //   try {
+  //     var response = await get(Uri.parse("$url/$serviceId"));
+  //     var responseDetails = jsonDecode(response.body);
+  //
+  //     print("xxxxxxxxxxxxxxxxxxxxxxxxxx ${responseDetails}");
+  //
+  //     //UserModel userModel = new UserModel(userId: int.parse(response.body['userId']), userEmail: response.body['userEmail'], description: response.body['description']);
+  //
+  //     return ;
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  //   return null;
+  // }
 
   Future<List<Service>?> getServicesPostedByUser(int userId) async
   {
