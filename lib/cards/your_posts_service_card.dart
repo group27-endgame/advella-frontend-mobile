@@ -26,7 +26,7 @@ class _YourPostsServiceCardState extends State<YourPostsServiceCard> {
   int? _moneyAmount;
   final serviceViewModel = ServiceViewModel();
 
-  String? userName;
+  String? userName, userEmail, description;
   int? userId, amount;
 
   String url = 'https://api.advella.popal.dev/content';
@@ -202,8 +202,10 @@ class _YourPostsServiceCardState extends State<YourPostsServiceCard> {
                               await serviceViewModel.getHighestBidder(widget.services[index].serviceId);
                               setState(() {
                                 userName = serviceViewModel.highestBidder?.userName;
+                                userEmail = serviceViewModel.highestBidder?.userEmail;
                                 userId = serviceViewModel.highestBidder?.userId;
-                               amount = serviceViewModel.amount;
+                                description = serviceViewModel.highestBidder?.description;
+                                amount = serviceViewModel.amount;
                               });
                               // await serviceViewModel.getHighestBidder(136);
                             },
@@ -212,18 +214,66 @@ class _YourPostsServiceCardState extends State<YourPostsServiceCard> {
                               widget.services[index].serviceId % 2 == 0 ? "assets/images/phone_repair.jpg" : "assets/images/grass2.jpg",
                             ) : Image.network('$url${widget.services[index].serviceImages!.path}'),
                             back: Container(
-                              child: Column(
-                                children: [
-                                  Text(
-                                      '${userName} $amount'
-                                  ),
-                                  Text(
-                                      'uwefowubfwribfwri'
-                                  ),
-                                  Text(
-                                      'uwefowubfwribfwri'
-                                  ),
-                                ],
+                              color: Colors.grey[100],
+                              width: double.infinity,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 10, bottom: 10),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'Top Bidder',
+                                      style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold
+                                      ),
+                                    ),
+                                    Image.asset(
+                                      'assets/gifs/trophy.gif',
+                                      height: 130,
+                                      width: 130,
+                                    ),
+                                    Text(
+                                        '$amount kr',
+                                      style: TextStyle(
+                                        fontSize: 40,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blue
+                                      ),
+                                    ),
+                                    Text(
+                                        '$userName',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    Text(
+                                      '$userEmail',
+                                      style: TextStyle(
+                                        fontSize: 17,
+                                        color: Colors.grey[700],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 10),
+                                      child: ElevatedButton(
+                                        onPressed: (){
+                                          chatDialog(context, widget.services[index]);
+                                        },
+                                        child: Text(
+                                            'Chat'
+                                        ),
+                                        style: ButtonStyle(
+                                          backgroundColor: MaterialStateProperty.all(Colors.pink),
+                                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
@@ -554,7 +604,7 @@ class _YourPostsServiceCardState extends State<YourPostsServiceCard> {
     context: context,
     builder: (BuildContext context) {
       return SimpleDialog(
-        title: const Text('Chat with the poster'),
+        title: const Text('Chat with the bidder'),
         children: <Widget>[
           SimpleDialogOption(
             child: Column(
@@ -564,9 +614,20 @@ class _YourPostsServiceCardState extends State<YourPostsServiceCard> {
                   radius: 60,
                 ),
                 Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Text(
+                    '${userName}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Text(
-                    '${service.userPosted.userEmail}',
+                    '${userEmail}',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 18,
@@ -607,7 +668,7 @@ class _YourPostsServiceCardState extends State<YourPostsServiceCard> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15),
                   child: Text(
-                    '${service.userPosted.description}',
+                    '${description}',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 15,
