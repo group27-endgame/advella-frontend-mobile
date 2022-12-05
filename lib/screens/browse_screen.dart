@@ -314,7 +314,7 @@ class _BrowseScreenState extends State<BrowseScreen>
 
                       FutureBuilder(
                           future: Future.wait([
-                            serviceViewModel.getAllServices(),
+                            serviceViewModel.getLatestServices(),
                             categoryViewModel.getAllServiceCategories()
                           ]),
                           builder:

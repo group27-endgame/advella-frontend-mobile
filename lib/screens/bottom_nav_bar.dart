@@ -1,10 +1,10 @@
 import 'package:advella/Auth/login_screen.dart';
 import 'package:advella/Auth/profile_screen.dart';
-import 'package:advella/screens/products_screen.dart';
+import 'package:advella/screens/your_bids_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'browse_screen.dart';
-import 'my_tasks_screen.dart';
+import 'your_posts_screen.dart';
 
 class BottomNavBar extends StatefulWidget {
 
@@ -17,8 +17,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   List screens = [
     BrowseScreen(),
-    ProductsScreen(),
-    MyTasksScreen(),
+    YourBidsScreen(),
+    YourPostsScreen(),
     // PostTaskScreen(),
     // InboxScreen(),
     ProfileScreen(),

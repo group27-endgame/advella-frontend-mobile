@@ -16,6 +16,9 @@ class ServiceViewModel with ChangeNotifier
   UserModel? userModel;
 
   var services = <Service>[];
+  var servicesPostedByUser = <Service>[];
+
+  UserModel? highestBidder;
 
   final _storage = new UserLocalStorageService();
 
@@ -28,6 +31,49 @@ class ServiceViewModel with ChangeNotifier
     // userModel!.access_token = token;
 
     this.services = (await service.getAllServices())!;
+
+    if (this.services.isEmpty) {
+      loadingStatus = LoadingStatus.Empty;
+    }
+
+    else {
+      loadingStatus = LoadingStatus.Completed;
+    }
+  }
+
+  Future<void> getLatestServices() async
+  {
+    loadingStatus = LoadingStatus.Searching;
+
+    // Refreshing token
+    // String token = await AuthService().refreshToken(userModel!.access_token, userModel!.refresh_token);
+    // userModel!.access_token = token;
+
+    this.services = (await service.getLatestServices())!;
+
+    if (this.services.isEmpty) {
+      loadingStatus = LoadingStatus.Empty;
+    }
+
+    else {
+      loadingStatus = LoadingStatus.Completed;
+    }
+  }
+
+  Future<void> getServicesPostedByUser() async
+  {
+    loadingStatus = LoadingStatus.Searching;
+    userModel = await _storage.getLoginDetails();
+
+    // Refreshing token
+    // String token = await AuthService().refreshToken(userModel!.access_token, userModel!.refresh_token);
+    // userModel!.access_token = token;
+
+
+
+    this.servicesPostedByUser = (await service.getServicesPostedByUser(userModel!.userId))!;
+
+    print("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqq: ${this.servicesPostedByUser[0].title}");
 
     if (this.services.isEmpty) {
       loadingStatus = LoadingStatus.Empty;
@@ -84,5 +130,50 @@ class ServiceViewModel with ChangeNotifier
     var user = await _storage.getUser();
 
     await service.bidService(userModel!.token, serviceId, moneyAmount);
+  }
+
+  Future<void> getHighestBidder(int serviceId) async
+  {
+    loadingStatus = LoadingStatus.Searching;
+
+    // Refreshing token
+    // String token = await AuthService().refreshToken(userModel!.access_token, userModel!.refresh_token);
+    // userModel!.access_token = token;
+
+    this.highestBidder = await service.getHighestBidder(serviceId);
+
+    if (this.highestBidder == null) {
+      loadingStatus = LoadingStatus.Empty;
+    }
+
+    else {
+      loadingStatus = LoadingStatus.Completed;
+    }
+  }
+
+  Future<void> closeService(int serviceId) async
+  {
+    loadingStatus = LoadingStatus.Searching;
+    userModel = await _storage.getLoginDetails();
+
+    await service.closeService(serviceId);
+  }
+
+  Future<void> openService(int serviceId) async
+  {
+    loadingStatus = LoadingStatus.Searching;
+    userModel = await _storage.getLoginDetails();
+
+    await service.openService(serviceId);
+  }
+
+  Future<void> deleteService(int serviceId) async
+  {
+    loadingStatus = LoadingStatus.Searching;
+    userModel = await _storage.getLoginDetails();
+
+    var user = await _storage.getUser();
+
+    await service.deleteService(userModel!.token, serviceId);
   }
 }
