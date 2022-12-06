@@ -209,9 +209,7 @@ class ServiceService {
 
       if (response.statusCode == 200) {
         var responseDetails = jsonDecode(response.body);
-
-        //print('[SERVICE]: $responseDetails');
-
+        
         //List<Service> services = responseDetails.map((data) => Service.fromJson(data)).toList();
 
         List<UserModel> users = [];
