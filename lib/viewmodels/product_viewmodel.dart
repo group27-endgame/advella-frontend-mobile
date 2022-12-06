@@ -40,6 +40,25 @@ class ProductViewModel with ChangeNotifier
     }
   }
 
+  Future<void> getLatestProducts() async
+  {
+    loadingStatus = LoadingStatus.Searching;
+
+    // Refreshing token
+    // String token = await AuthService().refreshToken(userModel!.access_token, userModel!.refresh_token);
+    // userModel!.access_token = token;
+
+    this.products = (await productService.getLatestProducts())!;
+
+    if (this.products.isEmpty) {
+      loadingStatus = LoadingStatus.Empty;
+    }
+
+    else {
+      loadingStatus = LoadingStatus.Completed;
+    }
+  }
+
   Future<void> postProduct(String title, String description, int moneyAmount, String location, DateTime date, ProductCategory productCategory, File image) async
   {
     loadingStatus = LoadingStatus.Searching;

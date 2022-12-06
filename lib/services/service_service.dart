@@ -78,7 +78,7 @@ class ServiceService {
   Future<List<Service>?> getLatestServices() async
   {
     try {
-      var response = await get(Uri.parse("$url/latest?amount=50"));
+      var response = await get(Uri.parse("$url/latest?amount=100"));
 
       if (response.statusCode == 200) {
         var responseDetails = jsonDecode(response.body);

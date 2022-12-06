@@ -333,7 +333,7 @@ class _BrowseScreenState extends State<BrowseScreen>
 
                       FutureBuilder(
                           future: Future.wait([
-                            productViewModel.getAllProducts(),
+                            productViewModel.getLatestProducts(),
                             categoryViewModel.getAllProductCategories()
                           ]),
                           builder:
