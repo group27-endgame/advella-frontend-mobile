@@ -1,4 +1,5 @@
 import 'package:advella/cards/task_card.dart';
+import 'package:advella/cards/your_posts_product_card.dart';
 import 'package:advella/cards/your_posts_service_card.dart';
 import 'package:advella/models/task.dart';
 import 'package:flutter/material.dart';
@@ -115,8 +116,7 @@ class _YourPostsScreenState extends State<YourPostsScreen> with TickerProviderSt
 
                           FutureBuilder(
                               future: Future.wait([
-                                productViewModel.getAllProducts(),
-                                categoryViewModel.getAllProductCategories()
+                                productViewModel.getProductsPostedByUser(),
                               ]),
                               builder:
                                   (BuildContext context, AsyncSnapshot snapshot) {
@@ -128,7 +128,7 @@ class _YourPostsScreenState extends State<YourPostsScreen> with TickerProviderSt
                                     ),
                                   );
                                 } else {
-                                  return ProductCard(productViewModel.products, categoryViewModel.productCategories);
+                                  return YourPostsProductCard(productViewModel.productsPostedByUser);
                                 }
                               }),
                         ],

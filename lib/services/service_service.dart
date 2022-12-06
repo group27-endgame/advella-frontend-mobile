@@ -256,7 +256,7 @@ class ServiceService {
   Future<List<Service>?> getServicesPostedByUser(int userId) async
   {
     try {
-      var response = await get(Uri.parse("$url/user/$userId?amount=10"));
+      var response = await get(Uri.parse("$url/user/$userId?amount=100"));
 
       if (response.statusCode == 200) {
         var responseDetails = jsonDecode(response.body);

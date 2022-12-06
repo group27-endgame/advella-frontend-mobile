@@ -18,6 +18,12 @@ class ProductViewModel with ChangeNotifier
   UserModel? userModel;
 
   var products = <Product>[];
+  var productsPostedByUser = <Product>[];
+
+  var bidders = <UserModel>[];
+
+  UserModel? highestBidder;
+  int? amount;
 
   final _storage = new UserLocalStorageService();
 
@@ -49,6 +55,26 @@ class ProductViewModel with ChangeNotifier
     // userModel!.access_token = token;
 
     this.products = (await productService.getLatestProducts())!;
+
+    if (this.products.isEmpty) {
+      loadingStatus = LoadingStatus.Empty;
+    }
+
+    else {
+      loadingStatus = LoadingStatus.Completed;
+    }
+  }
+
+  Future<void> getProductsPostedByUser() async
+  {
+    loadingStatus = LoadingStatus.Searching;
+    userModel = await _storage.getLoginDetails();
+
+    // Refreshing token
+    // String token = await AuthService().refreshToken(userModel!.access_token, userModel!.refresh_token);
+    // userModel!.access_token = token;
+
+    this.productsPostedByUser = (await productService.getProductsPostedByUser(userModel!.userId))!;
 
     if (this.products.isEmpty) {
       loadingStatus = LoadingStatus.Empty;
@@ -104,5 +130,68 @@ class ProductViewModel with ChangeNotifier
     var user = await _storage.getUser();
 
     await productService.bidProduct(userModel!.token, productId, moneyAmount);
+  }
+
+  Future<void> getHighestBidder(int productId) async
+  {
+    print("11111111111111111111");
+    loadingStatus = LoadingStatus.Searching;
+
+    this.highestBidder = (await productService.getHighestBidder(productId))!["user"] as UserModel?;
+    this.amount = (await productService.getHighestBidder(productId))!["amount"] as int?;
+
+
+    if (this.highestBidder == null) {
+      loadingStatus = LoadingStatus.Empty;
+    }
+
+    else {
+      loadingStatus = LoadingStatus.Completed;
+    }
+  }
+
+  Future<void> getAllBiddersProduct(int productId) async
+  {
+    loadingStatus = LoadingStatus.Searching;
+
+    // Refreshing token
+    // String token = await AuthService().refreshToken(userModel!.access_token, userModel!.refresh_token);
+    // userModel!.access_token = token;
+
+    this.bidders = (await productService.getAllBiddersProduct(productId))!;
+
+    if (this.bidders.isEmpty) {
+      loadingStatus = LoadingStatus.Empty;
+    }
+
+    else {
+      loadingStatus = LoadingStatus.Completed;
+    }
+  }
+
+  Future<void> closeProduct(int productId) async
+  {
+    loadingStatus = LoadingStatus.Searching;
+    userModel = await _storage.getLoginDetails();
+
+    await productService.closeProduct(productId);
+  }
+
+  Future<void> openProduct(int productId) async
+  {
+    loadingStatus = LoadingStatus.Searching;
+    userModel = await _storage.getLoginDetails();
+
+    await productService.openProduct(productId);
+  }
+
+  Future<void> deleteProduct(int productId) async
+  {
+    loadingStatus = LoadingStatus.Searching;
+    userModel = await _storage.getLoginDetails();
+
+    var user = await _storage.getUser();
+
+    await productService.deleteProduct(userModel!.token, productId);
   }
 }
