@@ -16,6 +16,7 @@ class ServiceViewModel with ChangeNotifier
   UserModel? userModel;
 
   var services = <Service>[];
+  var servicesAll = <Service>[];
   var servicesPostedByUser = <Service>[];
   var servicesByCategory = <Service>[];
 
@@ -34,9 +35,9 @@ class ServiceViewModel with ChangeNotifier
     // String token = await AuthService().refreshToken(userModel!.access_token, userModel!.refresh_token);
     // userModel!.access_token = token;
 
-    this.services = (await service.getAllServices())!;
+    this.servicesAll = (await service.getAllServices())!;
 
-    if (this.services.isEmpty) {
+    if (this.servicesAll.isEmpty) {
       loadingStatus = LoadingStatus.Empty;
     }
 

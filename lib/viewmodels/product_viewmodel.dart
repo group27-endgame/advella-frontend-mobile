@@ -18,6 +18,7 @@ class ProductViewModel with ChangeNotifier
   UserModel? userModel;
 
   var products = <Product>[];
+  var productsAll = <Product>[];
   var productsPostedByUser = <Product>[];
   var productsByCategory = <Product>[];
 
@@ -36,7 +37,7 @@ class ProductViewModel with ChangeNotifier
     // String token = await AuthService().refreshToken(userModel!.access_token, userModel!.refresh_token);
     // userModel!.access_token = token;
 
-    this.products = (await productService.getAllProducts())!;
+    this.productsAll = (await productService.getAllProducts())!;
 
     if (this.products.isEmpty) {
       loadingStatus = LoadingStatus.Empty;

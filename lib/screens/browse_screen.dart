@@ -310,7 +310,26 @@ class _BrowseScreenState extends State<BrowseScreen>
                   child: TabBarView(
                     controller: _tabController,
                     children: [
-                      BrowseServices(trendingServices, products, categories),
+                      // BrowseServices(trendingServices, products, categories);
+                      FutureBuilder(
+                          future: Future.wait([
+                            serviceViewModel.getAllServices(),
+                            productViewModel.getAllProducts(),
+                            categoryViewModel.getAllServiceCategories()
+                          ]),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (serviceViewModel.services.length == 0) {
+                              return Container(
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                  //Text('No bookings exist'),
+                                ),
+                              );
+                            } else {
+                              return BrowseServices(trendingServices, productViewModel.productsAll, categories);
+                            }
+                          }),
 
                       FutureBuilder(
                           future: Future.wait([
