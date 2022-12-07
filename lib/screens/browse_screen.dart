@@ -327,7 +327,7 @@ class _BrowseScreenState extends State<BrowseScreen>
                                 ),
                               );
                             } else {
-                              return BrowseServices(trendingServices, productViewModel.productsAll, categories);
+                              return BrowseServices(serviceViewModel.servicesAll, productViewModel.productsAll, categories);
                             }
                           }),
 

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 class BrowseServices extends StatefulWidget {
 
-  var trendingServices = <OldService>[];
+  var trendingServices = <Service>[];
   var trendingProducts = <Product>[];
   //var trendingProducts = <OldProduct>[];
   var categories = <Category>[];
