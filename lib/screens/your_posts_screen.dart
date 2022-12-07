@@ -159,7 +159,6 @@ class _YourPostsScreenState extends State<YourPostsScreen> with TickerProviderSt
                         ],
                       ),
                     ),
-                    /////////////////////////////////// Expanded(child: PostCard(posts)),
                   ],
                 ),
               ),
