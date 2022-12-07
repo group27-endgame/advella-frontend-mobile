@@ -11,6 +11,7 @@ import 'package:advella/viewmodels/category_viewmodel.dart';
 import 'package:advella/viewmodels/product_viewmodel.dart';
 import 'package:advella/viewmodels/service_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import '../models/product_category.dart';
@@ -322,7 +323,19 @@ class _BrowseScreenState extends State<BrowseScreen>
                             if (serviceViewModel.services.length == 0) {
                               return Container(
                                 child: Center(
-                                  child: CircularProgressIndicator(),
+                                  child: SpinKitCircle(
+                                    size: 100,
+                                    itemBuilder: (context, index) {
+                                      final colors = [Colors.blue, Colors.white];
+                                      final color = colors[index % colors.length];
+
+                                      return DecoratedBox(
+                                        decoration: BoxDecoration(
+                                          color: color,
+                                        ),
+                                      );
+                                    },
+                                  ),
                                   //Text('No bookings exist'),
                                 ),
                               );
@@ -341,7 +354,19 @@ class _BrowseScreenState extends State<BrowseScreen>
                             if (serviceViewModel.services.length == 0) {
                               return Container(
                                 child: Center(
-                                  child: CircularProgressIndicator(),
+                                  child: SpinKitCircle(
+                                    size: 100,
+                                    itemBuilder: (context, index) {
+                                      final colors = [Colors.blue, Colors.white];
+                                      final color = colors[index % colors.length];
+
+                                      return DecoratedBox(
+                                        decoration: BoxDecoration(
+                                          color: color,
+                                        ),
+                                      );
+                                    },
+                                  ),
                                   //Text('No bookings exist'),
                                 ),
                               );
@@ -360,7 +385,19 @@ class _BrowseScreenState extends State<BrowseScreen>
                             if (categoryViewModel.productCategories.isEmpty) {
                               return Container(
                                 child: Center(
-                                  child: CircularProgressIndicator(),
+                                  child: SpinKitCircle(
+                                    size: 100,
+                                    itemBuilder: (context, index) {
+                                      final colors = [Colors.blue, Colors.white];
+                                      final color = colors[index % colors.length];
+
+                                      return DecoratedBox(
+                                        decoration: BoxDecoration(
+                                          color: color,
+                                        ),
+                                      );
+                                    },
+                                  ),
                                   //Text('No bookings exist'),
                                 ),
                               );

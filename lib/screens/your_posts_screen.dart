@@ -3,6 +3,7 @@ import 'package:advella/cards/your_posts_product_card.dart';
 import 'package:advella/cards/your_posts_service_card.dart';
 import 'package:advella/models/task.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import '../cards/product_card.dart';
@@ -104,7 +105,19 @@ class _YourPostsScreenState extends State<YourPostsScreen> with TickerProviderSt
                                 if (serviceViewModel.servicesPostedByUser.length == 0) {
                                   return Container(
                                     child: Center(
-                                      child: CircularProgressIndicator(),
+                                      child: SpinKitCircle(
+                                        size: 100,
+                                        itemBuilder: (context, index) {
+                                          final colors = [Colors.pinkAccent, Colors.white];
+                                          final color = colors[index % colors.length];
+
+                                          return DecoratedBox(
+                                            decoration: BoxDecoration(
+                                              color: color,
+                                            ),
+                                          );
+                                        },
+                                      ),
                                       //Text('No bookings exist'),
                                     ),
                                   );
@@ -123,7 +136,19 @@ class _YourPostsScreenState extends State<YourPostsScreen> with TickerProviderSt
                                 if (categoryViewModel.productCategories.isEmpty) {
                                   return Container(
                                     child: Center(
-                                      child: CircularProgressIndicator(),
+                                      child: SpinKitCircle(
+                                        size: 100,
+                                        itemBuilder: (context, index) {
+                                          final colors = [Colors.pinkAccent, Colors.white];
+                                          final color = colors[index % colors.length];
+
+                                          return DecoratedBox(
+                                            decoration: BoxDecoration(
+                                              color: color,
+                                            ),
+                                          );
+                                        },
+                                      ),
                                       //Text('No bookings exist'),
                                     ),
                                   );
