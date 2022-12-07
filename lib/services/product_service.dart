@@ -324,4 +324,65 @@ class ProductService
       print(e.toString());
     }
   }
+
+  Future<List<Product>?> getProductsByCategory(int categoryId) async
+  {
+    try {
+      var response = await get(Uri.parse("$url/category/$categoryId"));
+
+      if (response.statusCode == 200) {
+        var responseDetails = jsonDecode(response.body);
+
+        //print('[PRODUCTS]: $responseDetails');
+
+        //List<Service> services = responseDetails.map((data) => Service.fromJson(data)).toList();
+
+        List<Product> products = [];
+
+        for (var p in responseDetails) {
+          // print('ppppppppppppppppppppppppppppppppppppppppp');
+          // print(p);
+
+          if(p['posted'] is int)
+          {
+
+          }
+
+          else {
+            Product product = Product(
+              productId: p['productId'],
+              title: p['title'],
+              detail: p['detail'],
+              moneyAmount: p['moneyAmount'],
+              pickUpLocation: p['pickUpLocation'],
+              postedDateTime: p['postedDateTime'],
+              deadline: p['deadline'],
+              productStatus: p['productStatus'],
+              numberOfBids: p['numberOfBids'],
+              productCategory: ProductCategory.fromJson(p['productCategory']),
+              userPosted: UserModel.fromJson(p['posted']),
+              //serviceImages: s['serviceImages'].map((data) => ServiceImage.fromJson(data)).toList()
+            );
+
+            //print(product.productId);
+
+            if(p['productImages'].length > 0) product.productImage = ProductImage.fromJson(p['productImages'][0]);
+
+            products.add(product);
+          }
+        }
+
+        //print('product length');
+        print(products.length);
+
+        return products;
+      }
+      else {
+        throw Exception('Response failed');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return null;
+  }
 }

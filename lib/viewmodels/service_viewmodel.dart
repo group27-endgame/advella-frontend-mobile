@@ -17,6 +17,7 @@ class ServiceViewModel with ChangeNotifier
 
   var services = <Service>[];
   var servicesPostedByUser = <Service>[];
+  var servicesByCategory = <Service>[];
 
   var bidders = <UserModel>[];
 
@@ -202,5 +203,24 @@ class ServiceViewModel with ChangeNotifier
     var user = await _storage.getUser();
 
     await service.deleteService(userModel!.token, serviceId);
+  }
+
+  Future<void> getServicesByCategory(int categoryId) async
+  {
+    loadingStatus = LoadingStatus.Searching;
+
+    // Refreshing token
+    // String token = await AuthService().refreshToken(userModel!.access_token, userModel!.refresh_token);
+    // userModel!.access_token = token;
+
+    this.servicesByCategory = (await service.getServicesByCategory(categoryId))!;
+
+    if (this.servicesByCategory.isEmpty) {
+      loadingStatus = LoadingStatus.Empty;
+    }
+
+    else {
+      loadingStatus = LoadingStatus.Completed;
+    }
   }
 }

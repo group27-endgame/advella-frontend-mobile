@@ -19,6 +19,7 @@ class ProductViewModel with ChangeNotifier
 
   var products = <Product>[];
   var productsPostedByUser = <Product>[];
+  var productsByCategory = <Product>[];
 
   var bidders = <UserModel>[];
 
@@ -193,5 +194,24 @@ class ProductViewModel with ChangeNotifier
     var user = await _storage.getUser();
 
     await productService.deleteProduct(userModel!.token, productId);
+  }
+
+  Future<void> getProductsByCategory(int categoryId) async
+  {
+    loadingStatus = LoadingStatus.Searching;
+
+    // Refreshing token
+    // String token = await AuthService().refreshToken(userModel!.access_token, userModel!.refresh_token);
+    // userModel!.access_token = token;
+
+    this.productsByCategory = (await productService.getProductsByCategory(categoryId))!;
+
+    if (this.productsByCategory.isEmpty) {
+      loadingStatus = LoadingStatus.Empty;
+    }
+
+    else {
+      loadingStatus = LoadingStatus.Completed;
+    }
   }
 }

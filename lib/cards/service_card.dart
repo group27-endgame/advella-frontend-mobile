@@ -24,6 +24,8 @@ class _ServicesCardState extends State<ServicesCard> {
   int? _moneyAmount;
   final serviceViewModel = ServiceViewModel();
 
+  int? _serviceCategoryId;
+
   String url = 'https://api.advella.popal.dev/content';
 
   String selectedItem = 'Technology';
@@ -366,6 +368,11 @@ class _ServicesCardState extends State<ServicesCard> {
                     diameterRatio: 1.0,
                     useMagnifier: true,
                     magnification: 1.5,
+                    onSelectedItemChanged: (index) {
+                      setState(() {
+                        _serviceCategoryId = categories[index].serviceCategoryId;
+                      });
+                    },
                     childDelegate: ListWheelChildBuilderDelegate(
                         childCount: categories.length,
                         builder: (BuildContext context, int index) {
@@ -400,7 +407,13 @@ class _ServicesCardState extends State<ServicesCard> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: (){
+                  onPressed: () async {
+                    await serviceViewModel.getServicesByCategory(_serviceCategoryId!);
+
+                    setState(() {
+                      widget.services = serviceViewModel.servicesByCategory;
+                    });
+
                     Navigator.of(context).pop();
                   },
                   child: Padding(

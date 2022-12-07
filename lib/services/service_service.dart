@@ -209,7 +209,7 @@ class ServiceService {
 
       if (response.statusCode == 200) {
         var responseDetails = jsonDecode(response.body);
-        
+
         //List<Service> services = responseDetails.map((data) => Service.fromJson(data)).toList();
 
         List<UserModel> users = [];
@@ -344,4 +344,64 @@ class ServiceService {
     }
   }
 
+  Future<List<Service>?> getServicesByCategory(int categoryId) async
+  {
+    try {
+      var response = await get(Uri.parse("$url/category/$categoryId"));
+
+      if (response.statusCode == 200) {
+        var responseDetails = jsonDecode(response.body);
+
+        //print('[SERVICE]: $responseDetails');
+
+        //List<Service> services = responseDetails.map((data) => Service.fromJson(data)).toList();
+
+        List<Service> services = [];
+
+        for (var s in responseDetails) {
+
+          if(s['posted'] is int)
+          {
+
+          }
+
+          else {
+            Service service = Service(
+              serviceId: s['serviceId'],
+              title: s['title'],
+              detail: s['detail'],
+              moneyAmount: s['moneyAmount'],
+              duration: s['duration'],
+              postedDateTime: s['postedDateTime'],
+              deadline: s['deadline'],
+              location: s['location'],
+              numberOfBids: s['numberOfBids'],
+              serviceStatus: s['serviceStatus'],
+              serviceCategory: ServiceCategory.fromJson(s['serviceCategory']),
+              userPosted: UserModel.fromJson(s['posted']),
+              //serviceImages: s['serviceImages'].map((data) => ServiceImage.fromJson(data)).toList()
+            );
+
+            if(s['serviceImages'].length > 0) service.serviceImages = ServiceImage.fromJson(s['serviceImages'][0]);
+
+
+            //print(service.serviceId);
+
+            services.add(service);
+          }
+        }
+
+        //print('service length');
+        print(services.length);
+
+        return services;
+      }
+      else {
+        throw Exception('Response failed');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return null;
+  }
 }

@@ -22,6 +22,7 @@ class _ProductCardState extends State<ProductCard> {
   String url = 'https://api.advella.popal.dev/content';
 
   int? _moneyAmount;
+  int? _productCategoryId;
 
   final productViewModel = ProductViewModel();
 
@@ -398,6 +399,11 @@ class _ProductCardState extends State<ProductCard> {
                     diameterRatio: 1.0,
                     useMagnifier: true,
                     magnification: 1.5,
+                    onSelectedItemChanged: (index) {
+                      setState(() {
+                        _productCategoryId = categories[index].productCategoryId;
+                      });
+                    },
                     childDelegate: ListWheelChildBuilderDelegate(
                         childCount: categories.length,
                         builder: (BuildContext context, int index) {
@@ -432,7 +438,13 @@ class _ProductCardState extends State<ProductCard> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: (){
+                  onPressed: () async {
+                    await productViewModel.getProductsByCategory(_productCategoryId!);
+
+                    setState(() {
+                      widget.products = productViewModel.productsByCategory;
+                    });
+
                     Navigator.of(context).pop();
                   },
                   child: Padding(
