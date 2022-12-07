@@ -17,8 +17,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   List screens = [
     BrowseScreen(),
-    YourBidsScreen(),
     YourPostsScreen(),
+    YourBidsScreen(),
     // PostTaskScreen(),
     // InboxScreen(),
     ProfileScreen(),
@@ -50,11 +50,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
               icon: Icon(Icons.home)
           ),
           BottomNavigationBarItem(
-              label: 'My Items',
-              icon: Icon(Icons.bar_chart_sharp)
+              label: 'Your Posts',
+              icon: Icon(Icons.view_list_sharp)
           ),
           BottomNavigationBarItem(
-              label: 'Chat',
+              label: 'My Items',
               icon: Icon(Icons.chat)
           ),
           BottomNavigationBarItem(
