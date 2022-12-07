@@ -139,112 +139,131 @@ class _ProductCardState extends State<ProductCard> {
                         Container(
                           width: 180,
                           height: 180,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 5),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8, top: 8),
-                                  child: Text(
-                                    widget.products[index].title,
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  padding: const EdgeInsets.only(left: 8, top: 10),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 5),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 3, right: 6.0),
-                                              child: SvgPicture.asset(
-                                                'assets/icons/money.svg',
-                                                height: 15,
-                                                width: 15,
-                                                color: Colors.grey[900],
-                                              ),
-                                            ),
-                                            Text(
-                                              '${widget.products[index].moneyAmount} kr',
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.grey[800]
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(right: 6.0),
-                                              child: Icon(
-                                                Icons.location_on_outlined,
-                                                size: 18,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                            Text(
-                                              '${widget.products[index].pickUpLocation}',
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                  color: Colors.grey[800],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(left: 3, right: 6.0),
-                                              child: SvgPicture.asset(
-                                                'assets/icons/calendar.svg',
-                                                height: 13,
-                                                width: 13,
-                                                color: Colors.grey[800],
-                                              ),
-                                            ),
-                                            Text(
-                                              '22-12-2022',
-                                              style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold,
-                                                  color: Colors.grey[800],
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                              ],
-                            ),
-                          ),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             color: Colors.grey[200],
                           ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
+                            child: Text(
+                              '${widget.products[index].detail}',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[800]
+                              ),
+                            ),
+                          ),
                         ),
+                        // Container(
+                        //   width: 180,
+                        //   height: 180,
+                        //   child: Padding(
+                        //     padding: const EdgeInsets.only(top: 5),
+                        //     child: Column(
+                        //       crossAxisAlignment: CrossAxisAlignment.start,
+                        //       children: [
+                        //         Padding(
+                        //           padding: const EdgeInsets.only(left: 8, top: 8),
+                        //           child: Text(
+                        //             widget.products[index].title,
+                        //             style: TextStyle(
+                        //               fontSize: 18,
+                        //               fontWeight: FontWeight.bold,
+                        //             ),
+                        //           ),
+                        //         ),
+                        //         Container(
+                        //           padding: const EdgeInsets.only(left: 8, top: 10),
+                        //           child: Column(
+                        //             crossAxisAlignment: CrossAxisAlignment.start,
+                        //             children: [
+                        //               Padding(
+                        //                 padding: const EdgeInsets.only(top: 5),
+                        //                 child: Row(
+                        //                   mainAxisAlignment: MainAxisAlignment.start,
+                        //                   children: [
+                        //                     Padding(
+                        //                       padding: const EdgeInsets.only(left: 3, right: 6.0),
+                        //                       child: SvgPicture.asset(
+                        //                         'assets/icons/money.svg',
+                        //                         height: 15,
+                        //                         width: 15,
+                        //                         color: Colors.grey[900],
+                        //                       ),
+                        //                     ),
+                        //                     Text(
+                        //                       '${widget.products[index].moneyAmount} kr',
+                        //                       style: TextStyle(
+                        //                         fontSize: 15,
+                        //                         fontWeight: FontWeight.bold,
+                        //                         color: Colors.grey[800]
+                        //                       ),
+                        //                     )
+                        //                   ],
+                        //                 ),
+                        //               ),
+                        //               Padding(
+                        //                 padding: const EdgeInsets.only(top: 10),
+                        //                 child: Row(
+                        //                   mainAxisAlignment: MainAxisAlignment.start,
+                        //                   children: [
+                        //                     Padding(
+                        //                       padding: const EdgeInsets.only(right: 6.0),
+                        //                       child: Icon(
+                        //                         Icons.location_on_outlined,
+                        //                         size: 18,
+                        //                         color: Colors.grey,
+                        //                       ),
+                        //                     ),
+                        //                     Text(
+                        //                       '${widget.products[index].pickUpLocation}',
+                        //                       style: TextStyle(
+                        //                         fontSize: 15,
+                        //                         fontWeight: FontWeight.bold,
+                        //                           color: Colors.grey[800],
+                        //                       ),
+                        //                     )
+                        //                   ],
+                        //                 ),
+                        //               ),
+                        //               Padding(
+                        //                 padding: const EdgeInsets.only(top: 10),
+                        //                 child: Row(
+                        //                   mainAxisAlignment: MainAxisAlignment.start,
+                        //                   children: [
+                        //                     Padding(
+                        //                       padding: const EdgeInsets.only(left: 3, right: 6.0),
+                        //                       child: SvgPicture.asset(
+                        //                         'assets/icons/calendar.svg',
+                        //                         height: 13,
+                        //                         width: 13,
+                        //                         color: Colors.grey[800],
+                        //                       ),
+                        //                     ),
+                        //                     Text(
+                        //                       '22-12-2022',
+                        //                       style: TextStyle(
+                        //                         fontSize: 15,
+                        //                         fontWeight: FontWeight.bold,
+                        //                           color: Colors.grey[800],
+                        //                       ),
+                        //                     )
+                        //                   ],
+                        //                 ),
+                        //               ),
+                        //             ],
+                        //           ),
+                        //         ),
+                        //
+                        //       ],
+                        //     ),
+                        //   ),
+                        //   decoration: BoxDecoration(
+                        //     borderRadius: BorderRadius.circular(10),
+                        //     color: Colors.grey[200],
+                        //   ),
+                        // ),
                         Container(
                           margin: const EdgeInsets.only(top: 5),
                           width: double.infinity,
