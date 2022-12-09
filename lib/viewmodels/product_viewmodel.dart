@@ -58,6 +58,8 @@ class ProductViewModel with ChangeNotifier
 
     this.products = (await productService.getLatestProducts())!;
 
+    //notifyListeners();
+
     if (this.products.isEmpty) {
       loadingStatus = LoadingStatus.Empty;
     }

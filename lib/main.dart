@@ -15,6 +15,7 @@ import 'package:advella/screens/subcategory_screens/pet_sitter_subcategory_scree
 import 'package:advella/screens/task_detail_screen.dart';
 import 'package:advella/services/local_storage/localstorage_user_service.dart';
 import 'package:advella/viewmodels/category_viewmodel.dart';
+import 'package:advella/viewmodels/chat_viewmodel.dart';
 import 'package:advella/viewmodels/product_viewmodel.dart';
 import 'package:advella/viewmodels/service_viewmodel.dart';
 import 'package:advella/viewmodels/user_viewmodel.dart';
@@ -67,6 +68,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => CategoryViewModel()),
         ChangeNotifierProvider(create: (_) => ProductViewModel()),
         ChangeNotifierProvider(create: (_) => UserViewModel()),
+        ChangeNotifierProvider(create: (_) => ChatViewModel()),
         // ChangeNotifierProvider(create: (_) => DeviationViewModel()),
       ],
       child: MaterialApp(
