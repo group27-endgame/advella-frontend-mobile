@@ -18,6 +18,8 @@ class ChatViewModel with ChangeNotifier
   var chatTexts = <String>[];
   List<types.TextMessage> messages = [];
 
+  List<types.Message> allMessages = [];
+
   Future<void> getAllMessages(int senderId, int recipientId) async
   {
     loadingStatus = LoadingStatus.Searching;
@@ -56,6 +58,8 @@ class ChatViewModel with ChangeNotifier
 
         messages.add(textMessage);
       }
+
+    //allMessages.addAll(messages);
 
     //notifyListeners();
 

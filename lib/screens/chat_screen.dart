@@ -37,7 +37,15 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
     _loadMessages();
+    //WidgetsBinding.instance.addPostFrameCallback((_) => _loadMessages());
   }
+
+  // @override
+  // void didUpdateWidget(covariant ChatScreen oldWidget) {
+  //   // TODO: implement didUpdateWidget
+  //   super.didUpdateWidget(oldWidget);
+  //   _loadMessages();
+  // }
 
   // @override
   // Widget build(BuildContext context) {
