@@ -17,6 +17,7 @@ import 'package:advella/services/local_storage/localstorage_user_service.dart';
 import 'package:advella/viewmodels/category_viewmodel.dart';
 import 'package:advella/viewmodels/product_viewmodel.dart';
 import 'package:advella/viewmodels/service_viewmodel.dart';
+import 'package:advella/viewmodels/user_viewmodel.dart';
 import 'package:badges/badges.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -65,6 +66,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) => ServiceViewModel()),
         ChangeNotifierProvider(create: (_) => CategoryViewModel()),
         ChangeNotifierProvider(create: (_) => ProductViewModel()),
+        ChangeNotifierProvider(create: (_) => UserViewModel()),
         // ChangeNotifierProvider(create: (_) => DeviationViewModel()),
       ],
       child: MaterialApp(

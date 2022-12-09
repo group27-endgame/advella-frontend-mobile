@@ -19,9 +19,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
     BrowseScreen(),
     YourPostsScreen(),
     YourBidsScreen(),
-    // PostTaskScreen(),
-    // InboxScreen(),
-    ProfileScreen(),
   ];
 
   void onTap(int index)
@@ -56,10 +53,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
           BottomNavigationBarItem(
               label: 'My Items',
               icon: Icon(Icons.chat)
-          ),
-          BottomNavigationBarItem(
-              label: 'Account',
-              icon: Icon(Icons.person)
           ),
         ],
         // index: index,

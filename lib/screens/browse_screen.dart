@@ -1,3 +1,4 @@
+import 'package:advella/Auth/profile_screen.dart';
 import 'package:advella/cards/product_card.dart';
 import 'package:advella/cards/service_card.dart';
 import 'package:advella/models/category.dart';
@@ -268,13 +269,19 @@ class _BrowseScreenState extends State<BrowseScreen>
                         ),
                       ),
                       new Spacer(),
-                      Container(
-                        margin: const EdgeInsets.only(right: 20),
-                        width: 45,
-                        height: 45,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: Image.asset('assets/images/profile_pic.png'),
+                      GestureDetector(
+                        child: Container(
+                          margin: const EdgeInsets.only(right: 20),
+                          width: 45,
+                          height: 45,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.asset('assets/images/profile_pic.png'),
+                          ),
+                        ),
+                        onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ProfileScreen()),
                         ),
                       ),
                     ],

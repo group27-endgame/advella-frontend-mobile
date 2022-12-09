@@ -1,3 +1,4 @@
+import 'package:advella/Auth/profile_screen.dart';
 import 'package:advella/cards/task_card.dart';
 import 'package:advella/cards/your_posts_product_card.dart';
 import 'package:advella/cards/your_posts_service_card.dart';
@@ -54,13 +55,19 @@ class _YourPostsScreenState extends State<YourPostsScreen> with TickerProviderSt
                             ),
                           ),
                           new Spacer(),
-                          Container(
-                            margin: const EdgeInsets.only(right: 20),
-                            width: 45,
-                            height: 45,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.asset('assets/images/profile_pic.png'),
+                          GestureDetector(
+                            child: Container(
+                              margin: const EdgeInsets.only(right: 20),
+                              width: 45,
+                              height: 45,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.asset('assets/images/profile_pic.png'),
+                              ),
+                            ),
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ProfileScreen()),
                             ),
                           ),
                         ],
