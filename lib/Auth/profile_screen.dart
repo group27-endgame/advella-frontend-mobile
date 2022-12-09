@@ -1,5 +1,6 @@
 import 'package:advella/models/user_model.dart';
 import 'package:advella/services/local_storage/localstorage_user_service.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,9 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+
+  String? _content = "";
+
   @override
   Widget build(BuildContext context) {
     return Consumer<UserViewModel>(
@@ -123,15 +127,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     textAlignVertical: TextAlignVertical.top,
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(),
-                                      labelText: "Input any problems",
+                                      labelText: "Input any problems/comments",
                                       alignLabelWithHint: true,
                                     ),
-                                    onChanged: (solutionText) {
+                                    onChanged: (content) {
                                       setState(() {
-                                        // solution = solutionText;
+                                        _content = content;
                                       });
                                     },
                                   ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10, right: 20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () async {
+                                        await viewmodel.postContactUs(_content!);
+
+                                        await Flushbar(
+                                          flushbarPosition: FlushbarPosition.TOP,
+                                          title: 'Thank you!',
+                                          message: 'Your problem/comment has been sent',
+                                          duration: Duration(seconds: 2),
+                                        ).show(context);
+                                      },
+                                      child: Text(
+                                        'Send',
+                                        style: TextStyle(
+                                          fontSize: 17,
+                                        ),
+                                      ),
+                                      style: ButtonStyle(
+                                        shape:
+                                        MaterialStateProperty.all<RoundedRectangleBorder>(
+                                          RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],

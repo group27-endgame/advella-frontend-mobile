@@ -1,3 +1,4 @@
+import 'package:advella/services/contact_us_service.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../models/user_model.dart';
@@ -8,6 +9,8 @@ class UserViewModel with ChangeNotifier
 {
   LoadingStatus loadingStatus = LoadingStatus.Empty;
   UserModel? userModel;
+
+  ContactUsService contactUsService = new ContactUsService();
 
   String? userName = "";
   String? userEmail = "";
@@ -21,5 +24,13 @@ class UserViewModel with ChangeNotifier
     userName = userModel?.userName;
     userEmail = userModel?.userEmail;
     userDescription = userModel?.description;
+  }
+
+  Future<void> postContactUs(String content) async
+  {
+    loadingStatus = LoadingStatus.Searching;
+    userModel = await _storage.getLoginDetails();
+
+    await contactUsService.postContactUs(userModel!.token, content);
   }
 }
