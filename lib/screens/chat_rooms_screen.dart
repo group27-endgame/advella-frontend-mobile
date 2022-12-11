@@ -48,46 +48,46 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
                 {
                   return Scaffold(
                     body: SafeArea(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.only(top: 10, left: 20),
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    padding: const EdgeInsets.only(top: 5, left: 0),
-                                    child: Text(
-                                      'Your Chats',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 25,
-                                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.only(top: 10, left: 20),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  padding: const EdgeInsets.only(top: 5, left: 0),
+                                  child: Text(
+                                    'Your Chats',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25,
                                     ),
                                   ),
-                                  new Spacer(),
-                                  GestureDetector(
-                                    child: Container(
-                                      margin: const EdgeInsets.only(right: 20),
-                                      width: 45,
-                                      height: 45,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.asset('assets/images/profile_pic.png'),
-                                      ),
-                                    ),
-                                    onTap: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => ProfileScreen()),
+                                ),
+                                new Spacer(),
+                                GestureDetector(
+                                  child: Container(
+                                    margin: const EdgeInsets.only(right: 20),
+                                    width: 45,
+                                    height: 45,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.asset('assets/images/profile_pic.png'),
                                     ),
                                   ),
-                                ],
-                              ),
+                                  onTap: () => Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => ProfileScreen()),
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            ListView.builder(
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Expanded(
+                            child: ListView.builder(
                               shrinkWrap: true,
                               itemCount: viewmodel.chatRooms.length,
                               scrollDirection: Axis.vertical,
@@ -153,8 +153,8 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
                                 }
                               },
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   );
