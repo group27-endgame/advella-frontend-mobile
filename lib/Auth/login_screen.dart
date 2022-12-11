@@ -179,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 200,
                   width: 200,
                   child: Image.asset(
-                    'assets/images/advella-logo.png'
+                    'assets/images/advella-logo.png',
                   ),
                 ),
                 //child: Text("Login", style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold),),
