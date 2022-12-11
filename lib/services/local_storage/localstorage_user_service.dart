@@ -21,7 +21,7 @@ class UserLocalStorageService
 
   Future saveUser(UserModel user) async
   {
-    await _storage.write(key: "login_details", value: jsonEncode(UserModel.toJson(user)));
+    await _storage.write(key: "login_details", value: jsonEncode(UserModel.toJsonWithToken(user)));
   }
 
   Future removeUser() async
@@ -56,6 +56,6 @@ class UserLocalStorageService
     //final prefs = await SharedPreferences.getInstance();
     //prefs.setString("login_details", jsonEncode(user.toJson()));
 
-    await _storage.write(key: "login_details", value: jsonEncode(UserModel.toJson(user)));
+    await _storage.write(key: "login_details", value: jsonEncode(UserModel.toJsonWithToken(user)));
   }
 }

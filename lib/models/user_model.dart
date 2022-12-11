@@ -30,4 +30,16 @@ class UserModel {
 
     return jsonMap;
   }
+
+  static Map<String, dynamic> toJsonWithToken(UserModel user) {
+    Map<String, dynamic> jsonMap = {
+      "userId": user.userId,
+      "email": user.userEmail,
+      "username": user.userName,
+      "description": user.description,
+      "token": user.token
+    };
+
+    return jsonMap;
+  }
 }
