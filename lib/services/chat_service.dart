@@ -4,6 +4,7 @@ import 'package:advella/models/ChatMessage.dart';
 import 'package:advella/models/ChatRoom.dart';
 import 'package:advella/models/user_model.dart';
 import 'package:http/http.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 class ChatService
 {
@@ -52,6 +53,26 @@ class ChatService
       print(e.toString());
     }
     return null;
+  }
+
+  Future postMessage(ChatMessage message, String? access_token) async
+  {
+    try {
+
+      print("ZZZZZZZZZZZZZZZZZ ${jsonEncode(ChatMessage.toJson(message))}");
+
+      var response = await post(Uri.parse(
+          "$url/"),
+          headers: {
+            "Authorization": "Bearer $access_token",
+            "Content-Type": "application/json"
+          }, body: jsonEncode(ChatMessage.toJson(message)));
+
+      print("ZZZZZZZZZZZZZZZZZ ${response.statusCode}");
+      print("888888888888888888888888 ${response.body}");
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   Future<List<ChatRoom>?> getAllChatRooms(int userId) async

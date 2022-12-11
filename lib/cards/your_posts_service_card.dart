@@ -7,6 +7,7 @@ import '../models/service.dart';
 import '../models/service_category.dart';
 import '../models/user_model.dart';
 import '../screens/bottom_nav_bar.dart';
+import '../screens/chat_screen.dart';
 import '../viewmodels/service_viewmodel.dart';
 
 class YourPostsServiceCard extends StatefulWidget {
@@ -320,7 +321,7 @@ class _YourPostsServiceCardState extends State<YourPostsServiceCard> {
                                 ElevatedButton(
                                   onPressed: () async {
                                     await serviceViewModel.getAllBiddersService(widget.services[index].serviceId);
-                                    seeAllBiddersDialog(context, serviceViewModel.bidders);
+                                    seeAllBiddersDialog(context, serviceViewModel.bidders, widget.services[index]);
                                   },
                                   child: Text(
                                     'See all bidders',
@@ -365,7 +366,7 @@ class _YourPostsServiceCardState extends State<YourPostsServiceCard> {
     );
   }
 
-  void seeAllBiddersDialog(BuildContext context, List<UserModel> bidders) => showDialog(
+  void seeAllBiddersDialog(BuildContext context, List<UserModel> bidders, Service service) => showDialog(
     context: context,
     builder: (BuildContext context) {
       return SimpleDialog(
@@ -411,7 +412,10 @@ class _YourPostsServiceCardState extends State<YourPostsServiceCard> {
                           ),
                           new Spacer(),
                           ElevatedButton(
-                            onPressed: (){},
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ChatScreen(service.userPosted.userId, service.userPosted.userName)),
+                            ),
                             child: Text(
                                 'Chat'
                             ),
@@ -718,7 +722,10 @@ class _YourPostsServiceCardState extends State<YourPostsServiceCard> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: (){},
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChatScreen(service.userPosted.userId, service.userPosted.userName)),
+                  ),
                   child: Text(
                       'Start chatting'
                   ),

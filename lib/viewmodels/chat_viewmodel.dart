@@ -26,16 +26,14 @@ class ChatViewModel with ChangeNotifier
 
   final _storage = new UserLocalStorageService();
 
-  Future<void> getAllMessages(int senderId, int recipientId) async
+  Future<void> getAllMessages(int recipientId) async
   {
     loadingStatus = LoadingStatus.Searching;
 
-    // Refreshing token
-    // String token = await AuthService().refreshToken(userModel!.access_token, userModel!.refresh_token);
-    // userModel!.access_token = token;
+    userModel = await _storage.getLoginDetails();
 
-    this.chats = (await chatService.getAllMessages(senderId, recipientId))!;
-    this.chatsRecipient = (await chatService.getAllMessages(recipientId, senderId))!;
+    this.chats = (await chatService.getAllMessages(userModel!.userId, recipientId))!;
+    this.chatsRecipient = (await chatService.getAllMessages(recipientId, userModel!.userId))!;
     //
     // chats.addAll(chatsRecipient);
     // chats.sort((a, b){
@@ -73,6 +71,33 @@ class ChatViewModel with ChangeNotifier
     else {
       loadingStatus = LoadingStatus.Completed;
     }
+  }
+
+  Future<void> postMessage(types.TextMessage message, int recipientId) async
+  {
+    userModel = await _storage.getLoginDetails();
+    print("MMMMMMMMMMMMMMMMMMMMMMM ${message.text}");
+
+    var chatMessage = new ChatMessage(
+        id: 0,
+        chatId: "${userModel!.userId}_${recipientId}",
+        chatContent: message.text,
+        chatMessageSender: new UserModel(
+          userId: userModel!.userId,
+          userEmail: "",
+          userName: "",
+          description: "",
+        ),
+        chatMessageRecipient: new UserModel(
+          userId: recipientId,
+          userEmail: "",
+          userName: "",
+          description: "",
+        ),
+        chatStatus: "",
+        sentTime: DateTime.now().millisecondsSinceEpoch);
+
+    await chatService.postMessage(chatMessage, userModel!.token);
   }
 
   Future<void> getAllChatRooms() async

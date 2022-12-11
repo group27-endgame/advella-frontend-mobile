@@ -18,7 +18,11 @@ import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({Key? key}) : super(key: key);
+
+  int recipientId;
+  String recipientUserName;
+
+  ChatScreen(this.recipientId, this.recipientUserName);
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -34,12 +38,12 @@ class _ChatScreenState extends State<ChatScreen> {
 
   ChatViewModel chatViewModel = ChatViewModel();
 
-  @override
-  void initState() {
-    super.initState();
-    // _loadMessages();
-    //WidgetsBinding.instance.addPostFrameCallback((_) => _loadMessages());
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // _loadMessages();
+  //   //WidgetsBinding.instance.addPostFrameCallback((_) => _loadMessages());
+  // }
 
   // @override
   // void didUpdateWidget(covariant ChatScreen oldWidget) {
@@ -69,100 +73,83 @@ class _ChatScreenState extends State<ChatScreen> {
     return Consumer<ChatViewModel>(
         builder: (context, viewmodel, child) {
           return Scaffold(
-            body: FutureBuilder(
-                future: Future.wait([
-                  viewmodel.getAllMessages(102,122),
-                ]).then((value) {
-                  var chats = viewmodel.chats;
-                  chats.addAll(viewmodel.chatsRecipient);
-                  chats.sort((a, b){
-                    return b.sentTime.compareTo(a.sentTime);
-                  });
-
-                  List<types.TextMessage> messages = [];
-                  for(var c in chats)
-                  {
-                    types.TextMessage textMessage = types.TextMessage(
-                      author: types.User(
-                        id: c.chatMessageSender.userId.toString(),
+            body: SafeArea(
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Text(
+                      '${widget.recipientUserName}',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25,
                       ),
-                      id: Uuid().v4(),
-                      text: c.chatContent,
-                      // repliedMessage: types.TextMessage(
-                      //     author: types.User(
-                      //       id: c.chatMessageSender.userId.toString(),
-                      //     ),
-                      //     id: Uuid().v1(),
-                      //     text: c.chatContent,
-                      // )
-                    );
+                    ),
+                  ),
+                  Expanded(
+                    child: FutureBuilder(
+                        future: Future.wait([
+                          viewmodel.getAllMessages(widget.recipientId),
+                        ]).then((value) {
+                          var chats = viewmodel.chats;
+                          chats.addAll(viewmodel.chatsRecipient);
+                          chats.sort((a, b){
+                            return b.sentTime.compareTo(a.sentTime);
+                          });
 
-                    messages.add(textMessage);
-                  }
+                          List<types.TextMessage> messages = [];
+                          for(var c in chats)
+                          {
+                            types.TextMessage textMessage = types.TextMessage(
+                              author: types.User(
+                                id: c.chatMessageSender.userId.toString(),
+                              ),
+                              id: Uuid().v4(),
+                              text: c.chatContent,
+                              // repliedMessage: types.TextMessage(
+                              //     author: types.User(
+                              //       id: c.chatMessageSender.userId.toString(),
+                              //     ),
+                              //     id: Uuid().v1(),
+                              //     text: c.chatContent,
+                              // )
+                            );
 
-                  if(_messages.length != messages.length){
+                            messages.add(textMessage);
+                          }
 
-                    setState(() {
-                      _messages = messages;
-                    });
-                  }
-                }),
-                builder:
-                    (BuildContext context, AsyncSnapshot snapshot) {
-                  return Chat(
-                    messages: _messages,//viewmodel.chatTexts.map((e) => types.Message.fromJson(e as Map<String, dynamic>)).toList(),
-                    onAttachmentPressed: _handleAttachmentPressed,
-                    onMessageTap: _handleMessageTap,
-                    onPreviewDataFetched: _handlePreviewDataFetched,
-                    onSendPressed: _handleSendPressed,
-                    showUserAvatars: true,
-                    showUserNames: true,
-                    user: _user,
-                  );
-                  // if (viewmodel.chats.isEmpty) {
-                  //   return Container(
-                  //     child: Center(
-                  //       child: SpinKitCircle(
-                  //         size: 100,
-                  //         itemBuilder: (context, index) {
-                  //           final colors = [Colors.blue, Colors.white];
-                  //           final color = colors[index % colors.length];
-                  //
-                  //           return DecoratedBox(
-                  //             decoration: BoxDecoration(
-                  //               color: color,
-                  //             ),
-                  //           );
-                  //         },
-                  //       ),
-                  //       //Text('No bookings exist'),
-                  //     ),
-                  //   );
-                  // }
-                  // else
-                  //   {
-                  //     return Chat(
-                  //       messages: _messages,//viewmodel.chatTexts.map((e) => types.Message.fromJson(e as Map<String, dynamic>)).toList(),
-                  //       onAttachmentPressed: _handleAttachmentPressed,
-                  //       onMessageTap: _handleMessageTap,
-                  //       onPreviewDataFetched: _handlePreviewDataFetched,
-                  //       onSendPressed: _handleSendPressed,
-                  //       showUserAvatars: true,
-                  //       showUserNames: true,
-                  //       user: _user,
-                  //     );
-                  //   }
-                }
+                          if(_messages.length != messages.length){
+
+                            setState(() {
+                              _messages = messages;
+                            });
+                          }
+                        }),
+                        builder:
+                            (BuildContext context, AsyncSnapshot snapshot) {
+                          return Chat(
+                            messages: _messages,//viewmodel.chatTexts.map((e) => types.Message.fromJson(e as Map<String, dynamic>)).toList(),
+                            onAttachmentPressed: _handleAttachmentPressed,
+                            onMessageTap: _handleMessageTap,
+                            onPreviewDataFetched: _handlePreviewDataFetched,
+                            onSendPressed: _handleSendPressed,
+                            showUserAvatars: true,
+                            showUserNames: true,
+                            user: _user,
+                          );
+                        }
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         }
     );
   }
 
-  void _addMessage(types.Message message) {
-    setState(() {
-      _messages.insert(0, message);
-    });
+  void _addMessage(types.TextMessage message) async {
+    await chatViewModel.postMessage(message, widget.recipientId);
   }
 
   void _handleAttachmentPressed() {
@@ -224,7 +211,7 @@ class _ChatScreenState extends State<ChatScreen> {
         uri: result.files.single.path!,
       );
 
-      _addMessage(message);
+      //_addMessage(message);
     }
   }
 
@@ -250,7 +237,7 @@ class _ChatScreenState extends State<ChatScreen> {
         width: image.width.toDouble(),
       );
 
-      _addMessage(message);
+      //_addMessage(message);
     }
   }
 
@@ -323,14 +310,14 @@ class _ChatScreenState extends State<ChatScreen> {
 
     _addMessage(textMessage);
   }
-
-  void _loadMessages() async
-  {
-    await chatViewModel.getAllMessages(102, 122);
-    setState(() {
-      _messages = chatViewModel.messages;
-    });
-  }
+  //
+  // void _loadMessages() async
+  // {
+  //   await chatViewModel.getAllMessages(102, 122);
+  //   setState(() {
+  //     _messages = chatViewModel.messages;
+  //   });
+  // }
 
 // void _loadMessages() async {
 //   final response = await rootBundle.loadString('assets/messages.json');

@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import '../models/product.dart';
 import '../models/user_model.dart';
 import '../screens/bottom_nav_bar.dart';
+import '../screens/chat_screen.dart';
 import '../viewmodels/product_viewmodel.dart';
 
 class YourPostsProductCard extends StatefulWidget {
@@ -228,7 +229,7 @@ class _YourPostsProductCardState extends State<YourPostsProductCard> {
                             child: ElevatedButton(
                               onPressed: () async {
                                 await productViewModel.getAllBiddersProduct(widget.products[index].productId);
-                                seeAllBiddersDialog(context, productViewModel.bidders);
+                                seeAllBiddersDialog(context, productViewModel.bidders, widget.products[index]);
                               },
                               child: Text(
                                   'See all bidders'
@@ -288,7 +289,7 @@ class _YourPostsProductCardState extends State<YourPostsProductCard> {
     );
   }
 
-  void seeAllBiddersDialog(BuildContext context, List<UserModel> bidders) => showDialog(
+  void seeAllBiddersDialog(BuildContext context, List<UserModel> bidders, Product product) => showDialog(
     context: context,
     builder: (BuildContext context) {
       return SimpleDialog(
@@ -334,7 +335,10 @@ class _YourPostsProductCardState extends State<YourPostsProductCard> {
                           ),
                           new Spacer(),
                           ElevatedButton(
-                            onPressed: (){},
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ChatScreen(product.userPosted.userId, product.userPosted.userName)),
+                            ),
                             child: Text(
                                 'Chat'
                             ),
@@ -641,7 +645,10 @@ class _YourPostsProductCardState extends State<YourPostsProductCard> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: (){},
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChatScreen(product.userPosted.userId, product.userPosted.userName)),
+                  ),
                   child: Text(
                       'Start chatting'
                   ),

@@ -3,6 +3,7 @@ import 'package:advella/models/service.dart';
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 
+import '../screens/chat_screen.dart';
 import '../viewmodels/product_viewmodel.dart';
 
 class ProductsTrending extends StatefulWidget {
@@ -181,6 +182,17 @@ class _ProductsTrendingState extends State<ProductsTrending> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Text(
+                    '${product.userPosted.userName}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                  child: Text(
                     '${product.userPosted.userEmail}',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -230,7 +242,10 @@ class _ProductsTrendingState extends State<ProductsTrending> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: (){},
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChatScreen(product.userPosted.userId, product.userPosted.userName)),
+                  ),
                   child: Text(
                       'Start chatting'
                   ),

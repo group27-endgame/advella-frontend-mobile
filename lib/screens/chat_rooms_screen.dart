@@ -30,7 +30,7 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
                     child: SpinKitCircle(
                       size: 100,
                       itemBuilder: (context, index) {
-                        final colors = [Colors.blue, Colors.white];
+                        final colors = [Colors.green, Colors.white];
                         final color = colors[index % colors.length];
 
                         return DecoratedBox(
@@ -127,7 +127,12 @@ class _ChatRoomsScreenState extends State<ChatRoomsScreen> {
                                             ),
                                             new Spacer(),
                                             ElevatedButton(
-                                              onPressed: (){},
+                                              onPressed: (){
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(builder: (context) => ChatScreen(viewmodel.chatRooms[index].chatRecipient.userId, viewmodel.chatRooms[index].chatRecipient.userName)),
+                                                );
+                                              },
                                               child: Text(
                                                   'Chat'
                                               ),

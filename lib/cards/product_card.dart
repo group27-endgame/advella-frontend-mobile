@@ -6,6 +6,8 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../screens/chat_screen.dart';
+
 class ProductCard extends StatefulWidget {
 
   var products = <Product>[];
@@ -331,6 +333,17 @@ class _ProductCardState extends State<ProductCard> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Text(
+                    '${product.userPosted.userName}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                  child: Text(
                     '${product.userPosted.userEmail}',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -380,7 +393,10 @@ class _ProductCardState extends State<ProductCard> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: (){},
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChatScreen(product.userPosted.userId, product.userPosted.userName)),
+                  ),
                   child: Text(
                       'Start chatting'
                   ),

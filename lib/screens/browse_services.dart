@@ -49,34 +49,6 @@ class _BrowseServicesState extends State<BrowseServices> {
             ),
           ),
           SizedBox(height: 300, child: ProductsTrending(widget.trendingProducts)),
-
-          Container(
-            padding: const EdgeInsets.only(top: 20, bottom: 20, right: 20, left: 20),
-            child: Row(
-              children: <Widget>[
-                Text(
-                  'Explore more',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                  ),
-                ),
-                new Spacer(),
-                Text(
-                  'See all',
-                  style: TextStyle(
-                    fontSize: 15,
-                    color: Colors.blueAccent,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 100,child: ServicesCategories(widget.categories)),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 30, 20, 30),
-            child: Divider(thickness: 1,),
-          ),
         ],
       ),
     );

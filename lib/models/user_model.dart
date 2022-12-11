@@ -26,7 +26,6 @@ class UserModel {
       "email": user.userEmail,
       "username": user.userName,
       "description": user.description,
-      "token": user.token,
     };
 
     return jsonMap;

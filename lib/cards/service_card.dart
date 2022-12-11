@@ -1,8 +1,11 @@
 import 'package:advella/models/service.dart';
 import 'package:advella/models/service_category.dart';
+import 'package:advella/screens/chat_screen.dart';
 import 'package:advella/viewmodels/service_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../Auth/profile_screen.dart';
 
 class ServicesCard extends StatefulWidget {
 
@@ -608,6 +611,17 @@ class _ServicesCardState extends State<ServicesCard> {
                 Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Text(
+                    '${service.userPosted.userName}',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                  child: Text(
                     '${service.userPosted.userEmail}',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -657,7 +671,10 @@ class _ServicesCardState extends State<ServicesCard> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: (){},
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ChatScreen(service.userPosted.userId, service.userPosted.userName)),
+                  ),
                   child: Text(
                       'Start chatting'
                   ),
