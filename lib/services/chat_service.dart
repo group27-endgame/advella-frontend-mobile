@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:advella/models/ChatMessage.dart';
+import 'package:advella/models/ChatRoom.dart';
 import 'package:advella/models/user_model.dart';
 import 'package:http/http.dart';
 
@@ -13,14 +14,8 @@ class ChatService
     try {
       var response = await get(Uri.parse("$url/$senderId/$recipientId"));
 
-      print('[CHATTTTT]: ${response.statusCode}');
-
       if (response.statusCode == 200) {
         var responseDetails = jsonDecode(response.body);
-
-        print('[CHATTTTT]: $responseDetails');
-
-        //List<Service> services = responseDetails.map((data) => Service.fromJson(data)).toList();
 
         List<ChatMessage> messages = [];
 
@@ -46,14 +41,56 @@ class ChatService
                 sentTime: s['sentTime']
             );
 
-            //print(service.serviceId);
-
             messages.add(message);
         }
-
-        print('qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq ${messages.length}');
-
         return messages;
+      }
+      else {
+        throw Exception('Response failed');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return null;
+  }
+
+  Future<List<ChatRoom>?> getAllChatRooms(int userId) async
+  {
+    try {
+      var response = await get(Uri.parse("https://api.advella.popal.dev/api/chatrooms/$userId"));
+
+      if (response.statusCode == 200) {
+        var responseDetails = jsonDecode(response.body);
+
+        print('[ROOOOOMMS]: $responseDetails');
+
+        List<ChatRoom> rooms = [];
+
+        for (var s in responseDetails) {
+
+          ChatRoom room = ChatRoom(
+              id: s['id'],
+              chatId: s['chatId'],
+              chatSender: UserModel(
+                userId: s['chatSender']['userId'],
+                userEmail: s['chatSender']['email'],
+                userName: s['chatSender']['username'],
+                description: "",
+              ),
+              chatRecipient: UserModel(
+                userId: s['chatRecipient']['userId'],
+                userEmail: s['chatRecipient']['email'],
+                userName: s['chatRecipient']['username'],
+                description: "",
+              ),
+          );
+
+          //print(service.serviceId);
+
+          rooms.add(room);
+        }
+
+        return rooms;
       }
       else {
         throw Exception('Response failed');

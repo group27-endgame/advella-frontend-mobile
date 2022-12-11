@@ -27,6 +27,7 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
 
   List<types.Message> _messages = [];
+  bool isLoading = true;
   final _user = const types.User(
     id: '102',
   );
@@ -36,7 +37,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void initState() {
     super.initState();
-    _loadMessages();
+    // _loadMessages();
     //WidgetsBinding.instance.addPostFrameCallback((_) => _loadMessages());
   }
 
@@ -66,36 +67,48 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<ChatViewModel>(
-      builder: (context, viewmodel, child) {
-       return Scaffold(
-          body: FutureBuilder(
-            future: Future.wait([
-              viewmodel.getAllMessages(102,122),
-            ]),
-            builder:
-            (BuildContext context, AsyncSnapshot snapshot) {
-              if (viewmodel.chats.isEmpty) {
-                return Container(
-                  child: Center(
-                    child: SpinKitCircle(
-                      size: 100,
-                      itemBuilder: (context, index) {
-                        final colors = [Colors.blue, Colors.white];
-                        final color = colors[index % colors.length];
+        builder: (context, viewmodel, child) {
+          return Scaffold(
+            body: FutureBuilder(
+                future: Future.wait([
+                  viewmodel.getAllMessages(102,122),
+                ]).then((value) {
+                  var chats = viewmodel.chats;
+                  chats.addAll(viewmodel.chatsRecipient);
+                  chats.sort((a, b){
+                    return b.sentTime.compareTo(a.sentTime);
+                  });
 
-                        return DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: color,
-                          ),
-                        );
-                      },
-                    ),
-                    //Text('No bookings exist'),
-                  ),
-                );
-              }
-              else
-                {
+                  List<types.TextMessage> messages = [];
+                  for(var c in chats)
+                  {
+                    types.TextMessage textMessage = types.TextMessage(
+                      author: types.User(
+                        id: c.chatMessageSender.userId.toString(),
+                      ),
+                      id: Uuid().v4(),
+                      text: c.chatContent,
+                      // repliedMessage: types.TextMessage(
+                      //     author: types.User(
+                      //       id: c.chatMessageSender.userId.toString(),
+                      //     ),
+                      //     id: Uuid().v1(),
+                      //     text: c.chatContent,
+                      // )
+                    );
+
+                    messages.add(textMessage);
+                  }
+
+                  if(_messages.length != messages.length){
+
+                    setState(() {
+                      _messages = messages;
+                    });
+                  }
+                }),
+                builder:
+                    (BuildContext context, AsyncSnapshot snapshot) {
                   return Chat(
                     messages: _messages,//viewmodel.chatTexts.map((e) => types.Message.fromJson(e as Map<String, dynamic>)).toList(),
                     onAttachmentPressed: _handleAttachmentPressed,
@@ -106,11 +119,43 @@ class _ChatScreenState extends State<ChatScreen> {
                     showUserNames: true,
                     user: _user,
                   );
+                  // if (viewmodel.chats.isEmpty) {
+                  //   return Container(
+                  //     child: Center(
+                  //       child: SpinKitCircle(
+                  //         size: 100,
+                  //         itemBuilder: (context, index) {
+                  //           final colors = [Colors.blue, Colors.white];
+                  //           final color = colors[index % colors.length];
+                  //
+                  //           return DecoratedBox(
+                  //             decoration: BoxDecoration(
+                  //               color: color,
+                  //             ),
+                  //           );
+                  //         },
+                  //       ),
+                  //       //Text('No bookings exist'),
+                  //     ),
+                  //   );
+                  // }
+                  // else
+                  //   {
+                  //     return Chat(
+                  //       messages: _messages,//viewmodel.chatTexts.map((e) => types.Message.fromJson(e as Map<String, dynamic>)).toList(),
+                  //       onAttachmentPressed: _handleAttachmentPressed,
+                  //       onMessageTap: _handleMessageTap,
+                  //       onPreviewDataFetched: _handlePreviewDataFetched,
+                  //       onSendPressed: _handleSendPressed,
+                  //       showUserAvatars: true,
+                  //       showUserNames: true,
+                  //       user: _user,
+                  //     );
+                  //   }
                 }
-            }
-          ),
-        );
-      }
+            ),
+          );
+        }
     );
   }
 
@@ -287,14 +332,14 @@ class _ChatScreenState extends State<ChatScreen> {
     });
   }
 
-  // void _loadMessages() async {
-  //   final response = await rootBundle.loadString('assets/messages.json');
-  //   final messages = (jsonDecode(response) as List)
-  //       .map((e) => types.Message.fromJson(e as Map<String, dynamic>))
-  //       .toList();
-  //
-  //   setState(() {
-  //     _messages = messages;
-  //   });
-  // }
+// void _loadMessages() async {
+//   final response = await rootBundle.loadString('assets/messages.json');
+//   final messages = (jsonDecode(response) as List)
+//       .map((e) => types.Message.fromJson(e as Map<String, dynamic>))
+//       .toList();
+//
+//   setState(() {
+//     _messages = messages;
+//   });
+// }
 }
