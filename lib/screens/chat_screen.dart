@@ -86,6 +86,16 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                     ),
                   ),
+                  Container(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Text(
+                      'Do not send any sensitive personal information as this communication line is not secure',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
                   Expanded(
                     child: FutureBuilder(
                         future: Future.wait([

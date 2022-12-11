@@ -1,5 +1,5 @@
-import 'package:advella/models/ChatMessage.dart';
-import 'package:advella/models/ChatRoom.dart';
+import 'package:advella/models/chat_message.dart';
+import 'package:advella/models/chat_room.dart';
 import 'package:advella/services/chat_service.dart';
 import 'package:flutter/cupertino.dart';
 

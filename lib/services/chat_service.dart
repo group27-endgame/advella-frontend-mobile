@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:advella/models/ChatMessage.dart';
-import 'package:advella/models/ChatRoom.dart';
+import 'package:advella/models/chat_message.dart';
+import 'package:advella/models/chat_room.dart';
 import 'package:advella/models/user_model.dart';
 import 'package:http/http.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
