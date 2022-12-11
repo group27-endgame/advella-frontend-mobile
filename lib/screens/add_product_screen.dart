@@ -299,6 +299,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () async {
+                    
                     await viewmodel.postProduct(_title, _description, _moneyAmount!, _location, startDate, _productCategory!, image!);
 
                     await Flushbar(
