@@ -122,7 +122,7 @@ class _ServicesCardState extends State<ServicesCard> {
                                         height: 15,
                                         child: CircleAvatar(
                                           backgroundImage: AssetImage(
-                                            'assets/icons/repair.png',
+                                              'assets/images/advella-logo-no-words.png',
                                           ),
                                         ),
                                       ),

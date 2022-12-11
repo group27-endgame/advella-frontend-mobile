@@ -96,7 +96,7 @@ class _YourPostsServiceCardState extends State<YourPostsServiceCard> {
                                         height: 15,
                                         child: CircleAvatar(
                                           backgroundImage: AssetImage(
-                                            'assets/icons/repair.png',
+                                            'assets/images/advella-logo-no-words.png',
                                           ),
                                         ),
                                       ),
