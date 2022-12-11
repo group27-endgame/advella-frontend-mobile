@@ -51,20 +51,21 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage("assets/images/bg.png"),
-                    fit: BoxFit.cover,
-                    colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken)
-                )
-            ),
+            color: Colors.white,
+            // decoration: BoxDecoration(
+            //     image: DecorationImage(
+            //         image: AssetImage("assets/images/bg.png"),
+            //         fit: BoxFit.cover,
+            //         colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.darken)
+            //     )
+            // ),
             child: Padding(
               padding: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.3),
               child: Container(
                 width: double.infinity,
                 height: double.infinity,
                 decoration: BoxDecoration(
-                    color: colorGrey,
+                    color: Colors.white,
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(50)
                     )
@@ -76,6 +77,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 30),
+                          child: Text("Login", style: TextStyle(color: Colors.grey[900], fontSize: 30, fontWeight: FontWeight.bold),),
+                        ),
                         TextFormField(
                           validator: MultiValidator(
                               [
@@ -154,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               }
                             },
                             child: Text("Login"),
-                            style: ElevatedButton.styleFrom(primary: Colors.red),
+                            style: ElevatedButton.styleFrom(primary: Colors.blue),
                           ),
                         )
                       ],
@@ -168,9 +173,16 @@ class _LoginScreenState extends State<LoginScreen> {
               alignment: Alignment.topCenter,
               child: Padding(
                 padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height*0.14,
+                  top: MediaQuery.of(context).size.height*0.05,
                 ),
-                child: Text("Login", style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold),),
+                child: Container(
+                  height: 200,
+                  width: 200,
+                  child: Image.asset(
+                    'assets/images/advella-logo.png'
+                  ),
+                ),
+                //child: Text("Login", style: TextStyle(color: Colors.white, fontSize: 40, fontWeight: FontWeight.bold),),
               )
           ),
         ],
