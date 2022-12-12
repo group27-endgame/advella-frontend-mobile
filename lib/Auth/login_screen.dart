@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        elevation: 0
+        elevation: 0,
       ),
       body: SingleChildScrollView(
         child: Stack(
